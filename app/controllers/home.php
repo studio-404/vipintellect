@@ -29,6 +29,11 @@ class Home extends Controller
 			"type"=>"contactdetails"
 		));
 
+		$db_howfindus = new Database("modules", array(
+			"method"=>"selectModuleByType", 
+			"type"=>"howfindus"
+		));
+
 		$db_slider = new Database("modules", array(
 			"method"=>"selectModuleByType", 
 			"type"=>"slider",
@@ -145,6 +150,7 @@ class Home extends Controller
 			"headertop"=>$headertop->index(), 
 			"pageData"=>$db_pagedata->getter(), 
 			"slogan"=>$db_slogan->getter(), 
+			"howfindus"=>$db_howfindus->getter(), 
 			"slider"=>$slider->index(), 
 			"footer"=>$footer->index() 
 		]);

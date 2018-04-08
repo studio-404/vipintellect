@@ -62,6 +62,20 @@
 					</select>
 					</div>
 
+					<div style="clear:both"></div>
+					<form action="?" method="get" id="moduleSearchForm" style="margin: 0 -10px 130px -10px;">
+						<div class="col s9">
+							<div class="input-field">
+								<input type="text" placeholder="ძიება" autocomplete="off" name="s" value="<?=(isset($_GET['s'])) ? $_GET['s'] : ''?>" />
+							</div>
+						</div>
+						<div class="col s3">
+							<a href="javascript:void(0)" onclick="$('#moduleSearchForm').submit()" class="waves-effect waves-light btn" style="margin: 25px 0 0 0; width: 100%">
+								<i class="material-icons left">note_add</i>ძებნა
+							</a>
+						</div>
+					</form>
+
 					<table class="highlight">
 						<thead>
 							<tr>
@@ -106,7 +120,7 @@
           </div>
           <div class="footer-copyright">
             <div class="container width-100-pr-20">
-            <span class="black-text">© 2016 ყველა უფლება დაცულია !</span>
+            <span class="black-text">© 2018 ყველა უფლება დაცულია !</span>
             <a class="black-text right" href="http://ww.404.ge" target="_blank">სტუდია 404</a>
             </div>
           </div>

@@ -201,9 +201,15 @@ class modules
 		$fetch = array();
 		$itemPerPage = $args['itemPerPage'];
 		$from = (isset($_GET['pn']) && $_GET['pn']>0) ? (($_GET['pn']-1)*$itemPerPage) : 0;
+		
+		$s = '';
+		if(isset($_GET['s'])){
+			$s = ' AND (`title` LIKE "%'.$_GET['s'].'%" OR `description`="%'.$_GET['s'].'%") ';
+		}
+
 		$parsed_url = $args['parsed_url'];
 		if(isset($parsed_url[3])){
-			$select = "SELECT (SELECT COUNT(`id`) FROM `usefull` WHERE `type`=:type AND `lang`=:lang AND `status`!=:one) as counted, `idx`, `title`, `visibility`, `lang` FROM `usefull` WHERE `type`=:type AND `lang`=:lang AND `status`!=:one ORDER BY `date` DESC LIMIT ".$from.",".$itemPerPage;
+			$select = "SELECT (SELECT COUNT(`id`) FROM `usefull` WHERE `type`=:type AND `lang`=:lang AND `status`!=:one) as counted, `idx`, `title`, `visibility`, `lang` FROM `usefull` WHERE `type`=:type AND `lang`=:lang AND `status`!=:one{$s} ORDER BY `date` DESC LIMIT ".$from.",".$itemPerPage;
 			$prepare = $this->conn->prepare($select); 
 			$prepare->execute(array(
 				":type"=>$parsed_url[3], 

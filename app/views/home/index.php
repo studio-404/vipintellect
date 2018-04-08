@@ -63,10 +63,9 @@ echo $data['headertop'];
                                               <div class="input-group">
                                                   <select name="slider-study-level" id="slider-study-level" class="has-dark-background glakho">
                                                       <option value=""><?=$l->translate("howfindus")?></option>
-                                                      <option value="1">მეგობრისგან</option>
-                                                      <option value="2">კოლეგისგან</option>
-                                                      <option value="3">Google</option>
-                                                      <option value="4">jobs.ge</option>
+                                                      <?php foreach($data["howfindus"] as $item):?>
+                                                      <option value="<?=$item['id']?>"><?=$item['title']?></option>
+                                                      <?php endforeach; ?>
                                                   </select>
                                               </div><!-- /.form-group -->
                                           </div><!-- /.col-md-6 -->
