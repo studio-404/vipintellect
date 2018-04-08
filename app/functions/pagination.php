@@ -27,6 +27,31 @@ class pagination
 		return $out;
 	}
 
+	public function intellect_pagination($total, $itemPerPage)
+	{
+		$pages = ceil($total / $itemPerPage);
+
+		$out = '<ul class="pagination glakho">';
+		for($i = 1; $i<=$pages; $i++)
+		{
+			$pn_get = (isset($_GET['pn']) && $_GET['pn']>0) ? $_GET['pn'] : 1;
+			$active = ($i==$pn_get) ? 'background-color: #ff0000; color: #ffffff; margin-bottom:10px;     border: solid 2px #000;' : 'margin-bottom:10px; border: solid 2px #000;';		
+			if(
+				isset($_GET['m']) && 
+				isset($_GET['y']) && 
+				is_numeric($_GET['m']) && 
+				is_numeric($_GET['y'])
+			){	
+				$pn = "?m={$_GET['m']}&y={$_GET['y']}&pn={$i}";
+			}else{
+				$pn = '?pn='.$i;	
+			}	
+			$out .= sprintf('<li><a href="%s" style="%s">%d</a></li>', $pn, $active, $i);
+		}
+		$out .= '</ul>';
+		return $out;
+	}
+
 
 	public function web($total, $itemPerPage)
 	{

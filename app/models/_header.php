@@ -35,7 +35,7 @@ class _header
 				
 		$out .= "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no\" />\n";
 		$out .= "<meta name=\"format-detection\" content=\"telephone=no\"/>\n";
-		$out .= sprintf("<title>%s - Lemi Voyage</title>\n", strip_tags($title));
+		$out .= sprintf("<title>%s - Vip Intellect Group</title>\n", strip_tags($title));
 		
 		$actual_link = "http://".$_SERVER["HTTP_HOST"].htmlentities($_SERVER["REQUEST_URI"]);
 		$out .= "<meta property=\"fb:app_id\" content=\"\" />\n";

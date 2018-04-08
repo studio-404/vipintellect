@@ -36,26 +36,14 @@ class _news
 				"Oct"=>"Oct",
 				"Nov"=>"Nov",
 				"Dec"=>"Dec"
-			),
-			"ru"=>array(
-				"Jan"=>"янв",
-				"Feb"=>"фев",
-				"Mar"=>"мар",
-				"Apr"=>"апр",
-				"May"=>"май",
-				"Jun"=>"июн",
-				"Jul"=>"июл",
-				"Aug"=>"авг",
-				"Sep"=>"сен",
-				"Oct"=>"окт",
-				"Nov"=>"ноя",
-				"Dec"=>"дек"
 			)
 		);
 		$l = new functions\l(); 
 		$sting = new functions\string();
 		$out = "";
-		if(count($this->data)){
+
+		$return["count"] = (isset($this->data[0]['count'])) ? $this->data[0]['count'] : 0;
+		if($return["count"]){
 			foreach($this->data as $value) {
 				$photos = new Database("photos",array(
 					"method"=>"selectByParent", 
@@ -66,7 +54,7 @@ class _news
 				if($photos->getter()){
 					$pic = $photos->getter();
 					$image = sprintf(
-						"%s%s/image/loadimage?f=%s%s&w=383&h=235",
+						"%s%s/image/loadimage?f=%s%s&w=360&h=220",
 						Config::WEBSITE,
 						strip_output::index($_SESSION['LANG']),
 						Config::WEBSITE_,
@@ -76,39 +64,57 @@ class _news
 					$image = "/public/filemanager/noimage.png";
 				}
 				$title = strip_tags($value['title']);
-				$titleUrl = str_replace(array(" "), "-", $title); 
+				$titleUrl = str_replace(array(" ", "'", '"'), "-", $title); 
 
-				$out .= "<section class=\"col s12 m6 l6\">\n";
-				$out .= "<section class=\"newsBox\">\n";
+				$str = str_replace(date("M", (int)$value['date']), $month[strip_output::index($_SESSION['LANG'])][date("M", (int)$value['date'])], date("M d, Y", (int)$value['date']));
+
+				$out .= "<div class=\"col-md-6 col-sm-6\">";
+				$out .= "<article class=\"blog-listing-post glakho\">";
+				$out .= "<figure class=\"blog-thumbnail\">";
+				$out .= "<figure class=\"blog-meta\">";
+				$out .= "<span class=\"fa fa-file-text-o\"></span>".$str;
+				$out .= "</figure>";
+				$out .= "<div class=\"image-wrapper\">";
 				$out .= sprintf(
-					"<a href=\"%s%s/news/%s/%s\">\n",
+					"<a href=\"%s%s/news/%s/%s\"><img src=\"%s\"></a>", 
+					Config::WEBSITE,
+					strip_output::index($_SESSION['LANG']),
+					(int)$value['idx'],
+					strip_output::index($titleUrl), 
+					$image
+				);
+				$out .= "</div>";
+				$out .= "</figure>";
+				$out .= "<aside>";
+				$out .= "<header>";
+				$out .= sprintf(
+					"<a href=\"%s%s/news/%s/%s\"><h3>%s</h3></a>", 
+					Config::WEBSITE,
+					strip_output::index($_SESSION['LANG']),
+					(int)$value['idx'],
+					strip_output::index($titleUrl), 
+					$sting->cut($title, 70)
+				);
+				$out .= "</header>";
+				$out .= "<div class=\"description\">";
+				$out .= sprintf(
+					"<p>%s</p>",
+					$sting->cut($value['description'], 160)
+				);
+				$out .= "</div>";
+				$out .= sprintf(
+					"<a href=\"%s%s/news/%s/%s\" class=\"read-more stick-to-bottom\">გაიგე მეტი</a>",
 					Config::WEBSITE,
 					strip_output::index($_SESSION['LANG']),
 					(int)$value['idx'],
 					strip_output::index($titleUrl)
 				);
-				$out .= "<section class=\"imageBox\">\n";
-				$out .= "<img src=\"".$image."\" width=\"100%\" alt=\"\" />\n";
-				$out .= "</section>\n";
-				$out .= "<section class=\"data\">\n";
-				$out .= sprintf(
-					"<p>%s</p>\n",
-					$l->translate('singlenews')
-				);
-				$str = str_replace(date("M", (int)$value['date']), $month[strip_output::index($_SESSION['LANG'])][date("M", (int)$value['date'])], date("M d, Y", (int)$value['date']));
-				$out .= sprintf(
-					"<p>%s</p>\n",
-					strip_output::index($str)
-				);
-				$out .= "</section>\n";
-				$out .= "<section class=\"title\">".$sting->cut(strip_tags($title),60)."</section>\n";
-				$out .= "<section class=\"text\">".$sting->cut(strip_tags($value['description']),160)."</section>\n";
-				$out .= "</a>\n";
-				$out .= "</section>\n";
-				$out .= "</section>\n";
+				$out .= "</aside>";
+				$out .= "</article>";
+				$out .= "</div>";
 			}
 		}		
-		
-		return $out; 
+		$return["html"] = $out;
+		return $return; 
 	}
 }

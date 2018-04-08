@@ -55,24 +55,11 @@ class News extends Controller
 		/* HEDARE */
 		$header = $this->model('_header');
 		$header->public = Config::PUBLIC_FOLDER; 
-		$header->lang = $_SESSION["LANG"]; 
-		
-
-		/* SOCIAL */
-		// $social = $this->model('_social');
-		// $social->networks = $db_socials->getter(); 
-
-		/* LANGUAGES */
-		// $languages = $this->model('_lang'); 
-		// $languages->langs = $db_langs->getter();
+		$header->lang = $_SESSION["LANG"]; 		
 
 		/* NAVIGATION */
 		$navigation = $this->model('_navigation');
 		$navigation->data = $db_navigation->getter();
-
-		/* publications */
-		// $publications = $this->model('_publications');
-		// $publications->data = $db_publicationss->getter(); 
 
 		/* header top */
 		$headertop = $this->model('_top');
@@ -88,18 +75,33 @@ class News extends Controller
 
 		if(!isset($newsId) || !is_numeric($newsId)){
 			$header->pagedata = $db_pagedata; 
+			
+			$fromnews = (isset($_GET['pn']) && is_numeric($_GET['pn']) && $_GET['pn']>0) ? ($_GET['pn']-1) : 0;
+			// echo $fromnews." ".Config::NEWS_PER_PAGE;
+			$where = "";
+			$jsonAddon = "";
+			if(
+				isset($_GET['m']) && 
+				isset($_GET['y']) && 
+				is_numeric($_GET['m']) && 
+				is_numeric($_GET['y'])
+			){
+				$where = " AND MONTH(`date_format`)={$_GET['m']} AND YEAR(`date_format`)={$_GET['y']}";
+				$jsonAddon = $_GET['y'].$_GET['m'];
+			}
 			$db_news = new Database("modules", array(
 				"method"=>"selectModuleByType", 
-				"type"=>"news", 
-				"from"=>0, 
-				"num"=>5
+				"type"=>"news",
+				"from"=>$fromnews,
+				"num"=>Config::NEWS_PER_PAGE,
+				"where"=>$where,
+				"jsonAddon"=>$jsonAddon
 			));
-			/* MAIN NEWS */
-			// $mainnews = $this->model('_mainnews');
-			// $mainnews->data = $db_news->getter();
-			/* OTHER NEWS */
-			// $othernews = $this->model('_othernews');
-			// $othernews->data = $db_news->getter();
+
+			/* News */
+			$news = $this->model('_news');
+			$news->data = $db_news->getter();
+
 			/* view */
 			$this->view('news/index', [
 				"header"=>array(
@@ -108,9 +110,7 @@ class News extends Controller
 				),
 				"headerModule"=>$header->index(), 
 				"pageData"=>$db_pagedata->getter(), 
-				// "mainnews"=>$mainnews->index(), 
-				// "othernews"=>$othernews->index(), 
-				// "publications"=>$publications->index(), 
+				"news"=>$news->index(), 
 				"headertop"=>$headertop->index(), 
 				"footer"=>$footer->index() 
 			]);

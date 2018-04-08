@@ -123,7 +123,10 @@ class modules
 		$limit = (isset($args['from']) && isset($args['num'])) ? " LIMIT ".$args["from"].",".$args['num'] : "";
 		$from = (isset($args["from"])) ? $args["from"] : 0;
 		$lang = (isset($args['lang'])) ? $args['lang'] : $_SESSION["LANG"];
-		$json = Config::CACHE."module_type_".str_replace(array("-"," "), "", implode("_",$_SESSION['URL']))."_".$lang.$from.$args['type'].".json";
+		$where = (isset($args["where"])) ? $args["where"] : '';
+		$jsonAddon = (isset($args["jsonAddon"])) ? $args["jsonAddon"] : '';
+		
+		$json = Config::CACHE."module_type_".str_replace(array("-"," "), "", implode("_",$_SESSION['URL']))."_".$lang.$from.$args['type'].$jsonAddon.".json";
 
 
 		if(file_exists($json)){
@@ -131,6 +134,17 @@ class modules
 		}else{
 			$select = "SELECT 
 			`usefull`.*, 
+			(
+				SELECT 
+				COUNT(`usefull`.`idx`) 
+				FROM 
+				`usefull`
+				WHERE 
+				`usefull`.`type`=:type AND 
+				`usefull`.`visibility`!=:one AND 
+				`usefull`.`lang`=:lang AND 
+				`usefull`.`status`!=:one{$where}
+			) AS count, 
 			(SELECT `photos`.`path` FROM `photos` WHERE `photos`.`parent`=`usefull`.`idx` AND `photos`.`type`=`usefull`.`type` AND `photos`.`lang`=`usefull`.`lang` AND `photos`.`status`!=:one ORDER BY `photos`.`id` ASC LIMIT 1) AS photo
 			FROM 
 			`usefull` 
@@ -138,7 +152,7 @@ class modules
 			`usefull`.`type`=:type AND 
 			`usefull`.`visibility`!=:one AND 
 			`usefull`.`lang`=:lang AND 
-			`usefull`.`status`!=:one".$orderBy.$limit;
+			`usefull`.`status`!=:one{$where}".$orderBy.$limit;
 
 			$prepare = $this->conn->prepare($select);
 			$prepare->execute(array(
@@ -281,14 +295,26 @@ class modules
 		$idx = $args["idx"];
 		$lang = $args["lang"];
 		$date = strtotime($args["date"]);
+		$date_format = date("Y-m-d", $date);
 		$title = $args["title"];
 		$description = $args["pageText"];
 		$url = (!empty($args["link"])) ? $args["link"] : "";
 		$classname = (!empty($args["classname"])) ? $args["classname"] : "";
 		$type = $this->getTypeByIdx($args["idx"]);
 
-		$update = "UPDATE `usefull` SET 
+		// update all languages
+		$update1 = "UPDATE `usefull` SET 
 		`date`=:datex, 
+		`date_format`=:date_format 
+		WHERE `idx`=:idx";
+		$prepare1 = $this->conn->prepare($update1);
+		$prepare1->execute(array(
+			":datex"=>$date,
+			":date_format"=>$date_format,
+			":idx"=>$idx
+		));
+
+		$update = "UPDATE `usefull` SET 
 		`title`=:title, 
 		`description`=:description, 
 		`url`=:url, 
@@ -296,7 +322,6 @@ class modules
 		WHERE `idx`=:idx AND `lang`=:lang";
 		$prepare = $this->conn->prepare($update);
 		$prepare->execute(array(
-			":datex"=>$date,
 			":title"=>$title,
 			":description"=>$description,
 			":url"=>$url,
@@ -452,6 +477,7 @@ class modules
 	private function add($args)
 	{
 		$date = strtotime($args['date']);
+		$date_format = date("Y-m-d", $date);
 		$type = $args['moduleSlug'];
 		$title = $args['title'];
 		$pageText = $args['pageText'];
@@ -470,11 +496,12 @@ class modules
 		$maxId = ($fetch2["maxidx"]) ? $fetch2["maxidx"] + 1 : 1;
 
 		foreach ($fetch as $val) {
-			$insert = "INSERT INTO `usefull` SET `idx`=:idx, `date`=:datex, `type`=:type, `title`=:title, `description`=:description, `url`=:url, `classname`=:classname, `lang`=:lang";
+			$insert = "INSERT INTO `usefull` SET `idx`=:idx, `date`=:datex, `date_format`=:date_format, `type`=:type, `title`=:title, `description`=:description, `url`=:url, `classname`=:classname, `lang`=:lang";
 			$prepare3 = $this->conn->prepare($insert);
 			$prepare3->execute(array(
 				":idx"=>$maxId, 
 				":datex"=>$date, 
+				":date_format"=>$date_format, 
 				":type"=>$type, 
 				":title"=>$title, 
 				":description"=>$pageText, 
