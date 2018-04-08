@@ -13,13 +13,12 @@ class News extends Controller
 		$db_langs = new Database("language", array(
 			"method"=>"select"
 		));
-		
-		$db_socials = new Database("modules", array(
-			"method"=>"selectModuleByType", 
-			"type"=>"social"
-		));
 
-		
+		$db_contactdetails = new Database("modules", array(
+			"method"=>"selectModuleByType", 
+			"type"=>"contactdetails"
+		));
+	
 
 		$db_navigation = new Database("page", array(
 			"method"=>"select", 
@@ -29,6 +28,11 @@ class News extends Controller
 			"status"=>0 
 		));
 
+		$db_usefulllinks = new Database("modules", array(
+			"method"=>"selectModuleByType", 
+			"type"=>"usefulllinks"
+		));
+
 		$s = (isset($_SESSION["URL"][1])) ? $_SESSION["URL"][1] : Config::MAIN_CLASS;
 		$db_pagedata = new Database("page", array(
 			"method"=>"selecteBySlug", 
@@ -36,17 +40,16 @@ class News extends Controller
 			"lang"=>$_SESSION['LANG'], 
 			"all"=>true
 		));
-		$db_footer = new Database("modules", array(
-			"method"=>"selectById", 
-			"idx"=>18,
-			"lang"=>$_SESSION['LANG']
-		));
 
-		$db_publicationss = new Database("modules", array(
+		$db_socialnetworks = new Database("modules", array(
 			"method"=>"selectModuleByType", 
-			"type"=>"publications",
-			"from"=>0, 
-			"num"=>4
+			"type"=>"socialnetworks"
+		));
+		
+		$db_footerHelpNav = new Database("page", array(
+			"method"=>"selecteByCid", 
+			"cid"=>7, 
+			"lang"=>$_SESSION['LANG']
 		));
 
 		/* HEDARE */
@@ -56,30 +59,32 @@ class News extends Controller
 		
 
 		/* SOCIAL */
-		$social = $this->model('_social');
-		$social->networks = $db_socials->getter(); 
+		// $social = $this->model('_social');
+		// $social->networks = $db_socials->getter(); 
 
 		/* LANGUAGES */
-		$languages = $this->model('_lang'); 
-		$languages->langs = $db_langs->getter();
+		// $languages = $this->model('_lang'); 
+		// $languages->langs = $db_langs->getter();
 
 		/* NAVIGATION */
 		$navigation = $this->model('_navigation');
 		$navigation->data = $db_navigation->getter();
 
 		/* publications */
-		$publications = $this->model('_publications');
-		$publications->data = $db_publicationss->getter(); 
+		// $publications = $this->model('_publications');
+		// $publications->data = $db_publicationss->getter(); 
 
 		/* header top */
 		$headertop = $this->model('_top');
-		$headertop->data["socialNetworksModule"] = $social->index();
-		$headertop->data["languagesModule"] = $languages->index();
+		$headertop->data["contactdetails"] = $db_contactdetails->getter();
 		$headertop->data["navigationModule"] = $navigation->index();
 
 		/*footer */
 		$footer = $this->model('_footer');
-		$footer->data = $db_footer->getter(); 
+		$footer->data["contactdetails"] = $db_contactdetails->getter();
+		$footer->data["footerHelpNav"] = $db_footerHelpNav->getter();
+		$footer->data["usefulllinks"] = $db_usefulllinks->getter();
+		$footer->data["socialnetworks"] = $db_socialnetworks->getter();
 
 		if(!isset($newsId) || !is_numeric($newsId)){
 			$header->pagedata = $db_pagedata; 
@@ -90,11 +95,11 @@ class News extends Controller
 				"num"=>5
 			));
 			/* MAIN NEWS */
-			$mainnews = $this->model('_mainnews');
-			$mainnews->data = $db_news->getter();
+			// $mainnews = $this->model('_mainnews');
+			// $mainnews->data = $db_news->getter();
 			/* OTHER NEWS */
-			$othernews = $this->model('_othernews');
-			$othernews->data = $db_news->getter();
+			// $othernews = $this->model('_othernews');
+			// $othernews->data = $db_news->getter();
 			/* view */
 			$this->view('news/index', [
 				"header"=>array(
@@ -103,9 +108,9 @@ class News extends Controller
 				),
 				"headerModule"=>$header->index(), 
 				"pageData"=>$db_pagedata->getter(), 
-				"mainnews"=>$mainnews->index(), 
-				"othernews"=>$othernews->index(), 
-				"publications"=>$publications->index(), 
+				// "mainnews"=>$mainnews->index(), 
+				// "othernews"=>$othernews->index(), 
+				// "publications"=>$publications->index(), 
 				"headertop"=>$headertop->index(), 
 				"footer"=>$footer->index() 
 			]);
@@ -125,15 +130,15 @@ class News extends Controller
 				"num"=>5
 			));
 			/* MAIN NEWS */
-			$mainnews = $this->model('_mainnews');
-			$mainnews->data = $db_news->getter();
+			// $mainnews = $this->model('_mainnews');
+			// $mainnews->data = $db_news->getter();
 
 			/* OTHER NEWS */
-			$othernews = $this->model('_othernews');
-			$othernews->data = $db_news2->getter();
-			$othernews->startAt = 0;
+			// $othernews = $this->model('_othernews');
+			// $othernews->data = $db_news2->getter();
+			// $othernews->startAt = 0;
 
-			$mainnews->inside = "true";
+			// $mainnews->inside = "true";
 			/* view */
 			$this->view('news/index', [
 				"header"=>array(
@@ -142,11 +147,11 @@ class News extends Controller
 				),
 				"headerModule"=>$header->index(), 
 				"pageData"=>$db_pagedata->getter(), 
-				"mainnews"=>$mainnews->index(), 
-				"publications"=>$publications->index(), 
-				"othernews"=>$othernews->index(), 
-				"headertop"=>$headertop->index(), 
-				"footer"=>$footer->index() 
+				// "mainnews"=>$mainnews->index(), 
+				// "publications"=>$publications->index(), 
+				// "othernews"=>$othernews->index(), 
+				// "headertop"=>$headertop->index(), 
+				// "footer"=>$footer->index() 
 			]);
 		}
 	}

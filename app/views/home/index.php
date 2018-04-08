@@ -2,8 +2,10 @@
 require_once("app/functions/l.php"); 
 require_once("app/functions/string.php"); 
 require_once("app/functions/strip_output.php"); 
+require_once("app/functions/trainings.php"); 
 $l = new functions\l(); 
 $string = new functions\string(); 
+$trainings = new functions\trainings(); 
 echo $data['headerModule']; 
 echo $data['headertop']; 
 ?>
@@ -74,18 +76,14 @@ echo $data['headertop'];
                                       <div class="row">
                                           <div class="col-md-6">
                                               <div class="input-group">
-                                                  <select name="slider-study-level" id="slider-study-level" class="has-dark-background glakho">
-                                                      <option value="">აირჩიეთ კურსი</option>
-                                                      <option value="1">კომპიუტერის საოფისე პროგრამები</option>
-                                                      <option value="2">IT ინფორმაციული ტექნოლოგიები</option>
-                                                  </select>
+                                                  <?=$trainings->index()?>
                                               </div><!-- /.form-group -->
                                           </div><!-- /.col-md-6 -->
                                           <div class="col-md-6">
                                               
                                           </div><!-- /.col-md-6 -->
                                       </div><!-- /.row -->
-                                      <button type="submit" id="slider-submit" class="btn btn-framed pull-right glakho">რეგისტრაცია</button>
+                                      <button type="submit" id="slider-submit" class="btn btn-framed pull-right glakho"><?=$l->translate("register")?></button>
                                       <div id="form-status"></div>
                                   </form>
                               </div><!-- /.col-md-12 -->

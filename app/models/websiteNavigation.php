@@ -32,6 +32,7 @@ class websiteNavigation
 					<div class=\"row level-0\" data-item=\"%d\" data-cid=\"%d\" data-level=\"0\" style=\"position:relative\">
 						<div class=\"cell roboto-font\">%d</div>
 						<div class=\"cell roboto-font\">%d</div>
+						<div class=\"cell roboto-font\">%d</div>
 						<div class=\"cell\"><a href=\"%s\" target=\"_blank\">%s</a></div>
 						<div class=\"cell roboto-font\">%s</div>
 						<div class=\"cell\">
@@ -58,6 +59,7 @@ class websiteNavigation
 				$val['idx'], 
 				$val['cid'],
 				$val['idx'],
+				$val['cid'],
 				$val['position'], 
 				$slug, 
 				$val['title'], 
@@ -96,6 +98,7 @@ class websiteNavigation
 
 						$nav .= "<div class=\"row level-2 sub-".$v['cid']."\" data-item=\"".$v['idx']."\" data-cid=\"".$v['cid']."\" data-level=\"2\" style=\"background:#f2f2f2\">";
 						$nav .= "<div class=\"cell roboto-font\">".$v['idx']."</div>";
+						$nav .= "<div class=\"cell roboto-font\">".$v['cid']."</div>";
 						$nav .= "<div class=\"cell roboto-font\">".$v['position']."</div>";
 						$nav .= "<div class=\"cell\"><a href=\"\" target=\"_blank\">".$v['title']."</a></div>";
 						$nav .= "<div class=\"cell roboto-font\">".$v['type']."</div>";
@@ -142,6 +145,7 @@ class websiteNavigation
 
 								$nav .= "<div class=\"row level-3 sub-".$v3['cid']."\" data-item=\"".$v3['idx']."\" data-cid=\"".$v3['cid']."\" data-level=\"3\" style=\"background:#cccccc\">";
 								$nav .= "<div class=\"cell roboto-font\">".$v3['idx']."</div>";
+								$nav .= "<div class=\"cell roboto-font\">".$v3['cid']."</div>";
 								$nav .= "<div class=\"cell roboto-font\">".$v3['position']."</div>";
 								$nav .= "<div class=\"cell\"><a href=\"\" target=\"_blank\">".$v3['title']."</a></div>";
 								$nav .= "<div class=\"cell roboto-font\">".$v3['type']."</div>";

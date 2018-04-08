@@ -41,6 +41,11 @@ class Home extends Controller
 			"num"=>15
 		));
 
+		$db_usefulllinks = new Database("modules", array(
+			"method"=>"selectModuleByType", 
+			"type"=>"usefulllinks"
+		));
+
 		$db_navigation = new Database("page", array(
 			"method"=>"select", 
 			"cid"=>0, 
@@ -49,14 +54,11 @@ class Home extends Controller
 			"status"=>0 
 		));
 
-		// $db_footerHelpNav = new Database("page", array(
-		// 	"method"=>"selecteByCid", 
-		// 	"cid"=>5, 
-		// 	"lang"=>$_SESSION['LANG']
-		// ));
-
-		
-
+		$db_footerHelpNav = new Database("page", array(
+			"method"=>"selecteByCid", 
+			"cid"=>7, 
+			"lang"=>$_SESSION['LANG']
+		));
 
 		$db_slogan = new Database("modules", array(
 			"method"=>"selectById", 
@@ -72,20 +74,10 @@ class Home extends Controller
 			"all"=>true
 		));
 
-		// $db_slider = new Database("modules", array(
-		// 	"method"=>"selectModuleByType", 
-		// 	"type"=>"slider",
-		// 	"from"=>0, 
-		// 	"num"=>15
-		// ));
-
-		// $db_selectTop = new Database("products", array(
-		// 	"method"=>"selectTop"
-		// ));
-
-		// $db_selectSpecial = new Database("products", array(
-		// 	"method"=>"selectSpecial"
-		// ));
+		$db_socialnetworks = new Database("modules", array(
+			"method"=>"selectModuleByType", 
+			"type"=>"socialnetworks"
+		));
 		
 
 		/* HEDARE */
@@ -93,24 +85,6 @@ class Home extends Controller
 		$header->public = Config::PUBLIC_FOLDER; 
 		$header->lang = $_SESSION["LANG"]; 
 		$header->pagedata = $db_pagedata; 
-
-		/* SOCIAL */
-		// $social = $this->model('_social');
-		// $social->networks = $db_socials->getter(); 
-
-
-
-		/* DESTINATIONS */
-		// $destinations = $this->model('_destinations');
-		// $destinations->data = $db_destinations->getter(); 
-
-		/* Tour Types */
-		// $tourtypes = $this->model('_tourtypes');
-		// $tourtypes->data = $db_tourtypes->getter(); 
-
-		/* LANGUAGES */
-		// $languages = $this->model('_lang'); 
-		// $languages->langs = $db_langs->getter();
 
 		/* NAVIGATION */
 		$navigation = $this->model('_navigation');
@@ -120,14 +94,6 @@ class Home extends Controller
 		$slider = $this->model('_slider');
 		$slider->data = $db_slider->getter(); 
 
-		/* Top travels */
-		// $toptravels = $this->model('_toptravels');
-		// $toptravels->data = $db_selectTop->getter();
-
-		/* special travels */
-		// $selectSpecial = $this->model('_selectSpecial');
-		// $selectSpecial->data = $db_selectSpecial->getter();
-
 		/* header top */
 		$headertop = $this->model('_top');
 		$headertop->data["contactdetails"] = $db_contactdetails->getter();
@@ -135,8 +101,10 @@ class Home extends Controller
 
 		/*footer */
 		$footer = $this->model('_footer');
-		// $footer->data["socialNetworksModule"] = $social->index();
-		// $footer->data["footerHelpNav"] = $db_footerHelpNav->getter();
+		$footer->data["contactdetails"] = $db_contactdetails->getter();
+		$footer->data["footerHelpNav"] = $db_footerHelpNav->getter();
+		$footer->data["usefulllinks"] = $db_usefulllinks->getter();
+		$footer->data["socialnetworks"] = $db_socialnetworks->getter();
 
 
 

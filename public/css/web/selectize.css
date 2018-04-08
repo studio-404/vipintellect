@@ -294,6 +294,7 @@
   color: #303030;
   cursor: default;
   background: #ffffff;
+  font-weight: bolder;
 }
 
 .selectize-dropdown .active {
@@ -307,6 +308,10 @@
 
 .selectize-dropdown .create {
   color: rgba(48, 48, 48, 0.5);
+}
+
+.selectize-dropdown .optgroup .option{
+  padding-left: 20px !important;
 }
 
 .selectize-dropdown-content {

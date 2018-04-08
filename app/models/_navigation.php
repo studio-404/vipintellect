@@ -7,9 +7,7 @@ class _navigation
 		require_once("app/functions/strip_output.php");
 		$out = "<nav class=\"collapse navbar-collapse bs-navbar-collapse navbar-right ninoMtavruli\" role=\"navigation\">\n";
 		$out .= "<ul class=\"nav navbar-nav\">\n";
-		// $out .= "<li>\n";
-		// $out .= "<a href=\"#\" class=\"closeNavigation\"><i class=\"fa fa-times\" aria-hidden=\"true\"></i></a>\n";
-		// $out .= "</li>\n";
+
 		if(count($this->data)){
 			foreach($this->data as $value) {
 				$subNavigation = new Database('page', array(
@@ -19,10 +17,19 @@ class _navigation
 					"lang"=>strip_output::index($value['lang']), 
 					"status"=>0
 				));
+				/* Active main nav start */
 				$active = (isset($_SESSION["URL"][1]) && $_SESSION["URL"][1]==$value['slug']) ? "active" : "";
 				if(!isset($_SESSION["URL"][1]) && $value['slug']=="home"){
 					$active = "active";
 				}
+				foreach ($subNavigation->getter() as $val) {
+					if(isset($_SESSION["URL"][1]) && $_SESSION["URL"][1]==$val['slug']){
+						$active = "active";
+						break;
+					}
+				}
+				/* Active main nav end */
+				
 				if($subNavigation->getter()){				
 					
 					if(isset($value['redirect']) && $value['redirect']!=""){

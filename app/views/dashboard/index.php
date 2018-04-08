@@ -60,6 +60,9 @@
 										ს.კ.
 									</div>
 									<div class="cell">
+										ნავ. ს.კ.
+									</div>
+									<div class="cell">
 										პოზიცია
 									</div>
 									<div class="cell">

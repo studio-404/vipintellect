@@ -21,10 +21,13 @@ class _footer
 
 		$out .= "<div class=\"footer-social\">\n";
 		$out .= "<div class=\"icons\">\n";
-		$out .= "<a href=\"\"><i class=\"fa fa-twitter\"></i></a>\n";
-		$out .= "<a href=\"\"><i class=\"fa fa-facebook\"></i></a>\n";
-		$out .= "<a href=\"\"><i class=\"fa fa-pinterest\"></i></a>\n";
-		$out .= "<a href=\"\"><i class=\"fa fa-youtube-play\"></i></a>\n";
+		foreach ($this->data["socialnetworks"] as $item) {
+			$out .= sprintf(
+				"<a href=\"%s\" target=\"_blank\"><i class=\"%s\"></i></a>\n", 
+				$item['url'], 
+				$item['classname']
+			);
+		}
 		$out .= "</div>\n";
 		$out .= "</div>\n";
 
@@ -57,39 +60,77 @@ class _footer
 
 		$out .= "<div class=\"col-md-3 col-sm-4\">\n";
 		$out .= "<aside>\n";
-		$out .= "<header><h4 class=\"ninoMtavruli\">კონტაქტი</h4></header>\n";
+		$out .= sprintf(
+			"<header><h4 class=\"ninoMtavruli\">%s</h4></header>\n",
+			$l->translate("contactus")
+		);
 		$out .= "<address class=\"glakho\">\n";
 		$out .= "<strong>VIP Intellect Group</strong><br>\n";
-		$out .= "<span>პეკინის #28 მე-6-ე სართული</span><br><br><br>\n";
-		$out .= "<abbr title=\"საკონტაქტო ნომერი\">საკ. ნომერი:</abbr> 2371939; 551196110; 593618212<br>\n";
-		$out .= "<abbr title=\"ელექტრონული ფოსტა\">ელ-ფოსტა:</abbr> <a href=\"#\">ninovipicg@gmail.com</a>\n";
+		$out .= sprintf(
+			"<span>%s</span><br><br><br>\n", 
+			(isset($this->data['contactdetails'][1]['description'])) ? strip_tags($this->data['contactdetails'][1]['description']) : ''
+		);
+		$out .= sprintf(
+			"<abbr title=\"%s\">%s:</abbr> %s<br>\n",
+			$l->translate("contactnumber"),
+			$l->translate("contactnumber"),
+			(isset($this->data['contactdetails'][0]['description'])) ? strip_tags($this->data['contactdetails'][0]['description']) : ''
+		);
+		$out .= sprintf(
+			"<abbr title=\"%s\">%s:</abbr> <a href=\"#\">%s</a>\n", 
+			$l->translate("email"),
+			$l->translate("email"),
+			(isset($this->data['contactdetails'][2]['description'])) ? strip_tags($this->data['contactdetails'][2]['description']) : ''
+		);
 		$out .= "</address>\n";
 		$out .= "</aside>\n";
 		$out .= "</div><!-- /.col-md-3 -->\n";
 
 		$out .= "<div class=\"col-md-3 col-sm-4\">\n";
 		$out .= "<aside>\n";
-		$out .= "<header><h4 class=\"ninoMtavruli\">ტრენინგები</h4></header>\n";
+		$out .= sprintf(
+			"<header><h4 class=\"ninoMtavruli\">%s</h4></header>\n",
+			$l->translate("trainings")
+		);
 		$out .= "<ul class=\"list-links glakho\">\n";
-		$out .= "<li><a href=\"#\">კომპიუტერული პროგრამები</a></li>\n";
-		$out .= "<li><a href=\"#\">ბუღალტერია, საგადასახადო</a></li>\n";
-		$out .= "<li><a href=\"#\">ტურიზმი და სასტუმრო, გიდის კურსი</a></li>\n";
-		$out .= "<li><a href=\"#\">ლოგისტიკა</a></li>\n";
-		$out .= "<li><a href=\"#\">ბიზნეს ადმინისტრირება</a></li>\n";
-		$out .= "<li><a href=\"#\">ჯანდაცვის მენეჯმენტი</a></li>\n";
-		$out .= "<li><a href=\"#\">გეოინფრომაციული სისტემები</a></li>\n";
-		$out .= "<li><a href=\"#\">ბიზნეს ფსიქოლოგია</a></li>\n";
+		foreach ($this->data['footerHelpNav'] as $item) {
+			if(isset($item['redirect']) && $item['redirect']!=""){
+				$url = $item['redirect'];
+			}else{
+				$url = sprintf(
+					"%s%s/%s",
+					Config::WEBSITE,
+					strip_output::index($_SESSION['LANG']),
+					strip_output::index($item['slug'])
+				);
+			}
+
+			$out .= sprintf(
+				"<li><a href=\"%s\">%s</a></li>\n",
+				$url, 
+				$item['title']
+		);
+		}		
 		$out .= "</ul>\n";
 		$out .= "</aside>\n";
 		$out .= "</div><!-- /.col-md-3 -->\n";
 
 		$out .= "<div class=\"col-md-3 col-sm-4\">\n";
 		$out .= "<aside>\n";
-		$out .= "<header><h4 class=\"ninoMtavruli\">სასარგებლო ბმულები</h4></header>\n";
+		$out .= sprintf(
+			"<header><h4 class=\"ninoMtavruli\">%s</h4></header>\n",
+			$l->translate("usefulllinks")
+		);
 		$out .= "<ul class=\"list-links glakho\">\n";
-		$out .= "<li><a href=\"#\">პროფესიული განათლების სტრატეგია</a></li>\n";
-		$out .= "<li><a href=\"#\">პროფესიული საგანმანათლებლო დაწესებულებები</a></li>\n";
-		$out .= "<li><a href=\"#\">ეროვნული პროფესიული საბჭო</a></li>\n";
+		foreach ($this->data['usefulllinks'] as $item) {
+			$target = ($item['classname']=="blank") ? ' target="_blank"' : '';
+			$out .= sprintf(
+				"<li><a href=\"%s\"%s>%s</a></li>\n",
+				$item['url'],
+				$target, 
+				$item['title']
+			);
+		}
 		$out .= "</ul>\n";
 		$out .= "</aside>\n";
 		$out .= "</div><!-- /.col-md-3 -->\n";
