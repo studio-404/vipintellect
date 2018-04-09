@@ -88,6 +88,17 @@ class Home extends Controller
 			"from"=>0,
 			"num"=>Config::HOME_PAGE_STAFF_NUM
 		));
+
+		$db_gallery = new Database("modules", array(
+			"method"=>"selectModuleByType", 
+			"type"=>"gallery",
+			"from"=>0,
+			"num"=>Config::HOME_PAGE_GALLERY_NUM
+		));
+
+		/* gallery module */
+		$gallery = $this->model('_gallery');
+		$gallery->data = $db_gallery->getter();
 		
 
 		/* HEDARE */
@@ -143,6 +154,7 @@ class Home extends Controller
 			"howfindus"=>$db_howfindus->getter(), 
 			"news"=>$news->index(), 
 			"staff"=>$staff->index(), 
+			"gallery"=>$gallery->index(), 
 			"vacancies"=>$vacancies->index(), 
 			"slider"=>$slider->index(), 
 			"footer"=>$footer->index() 

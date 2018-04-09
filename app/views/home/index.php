@@ -195,15 +195,8 @@ echo $data['headertop'];
                           <h2 class="ninoMtavruli">გალერეა</h2>
                       </header>
                       <div class="section-content">
-                          <ul class="gallery-list">
-                              <li><a href="<?=Config::WEBSITE?>/public/img/gallery-big-image.jpg" class="image-popup"><img src="<?=Config::WEBSITE?>/public/img/image-01.jpg" alt=""></a></li>
-
-                              <li><a href="<?=Config::WEBSITE?>/public/img/gallery-big-image.jpg" class="image-popup"><img src="<?=Config::WEBSITE?>/public/img/image-01.jpg" alt=""></a></li>
-
-                              <li><a href="<?=Config::WEBSITE?>/public/img/gallery-big-image.jpg" class="image-popup"><img src="<?=Config::WEBSITE?>/public/img/image-01.jpg" alt=""></a></li>
-                              
-                          </ul>
-                          <a href="#" class="read-more glakho" style="font-size: 12px;">ნახე მეტი</a>
+                          <?=$data["gallery"]?>
+                          <a href="/<?=$_SESSION["LANG"]?>/gallery" class="read-more glakho" style="font-size: 12px;">ნახე მეტი</a>
                       </div><!-- /.section-content -->
                   </section><!-- /.gallery -->
               </div><!-- /.col-md-4 -->
@@ -261,7 +254,6 @@ echo $data['headertop'];
 
 </div>
 <!-- end Page Content -->
-
 
 <?=$data['footer']?>
 

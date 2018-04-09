@@ -8,72 +8,145 @@ echo $data['headertop'];
 $photo = (isset($data["pageData"]["photo"])) ? Config::WEBSITE_.$data["pageData"]["photo"] : "";
 ?>
 
-<section class="breadcrups" style="background-image: url('<?=$photo?>')">
-	<section class="content">
-		<h3><?=(isset($data["pageData"]["title"])) ? $data["pageData"]["title"] : ""?></h3>
-		<ul>
-			<li><a href="<?=Config::WEBSITE.$_SESSION["LANG"]."/".Config::MAIN_CLASS?>"><?=$l->translate("home")?></a></li>
-			<li><a href=""><?=(isset($data["pageData"]["title"])) ? $data["pageData"]["title"] : ""?></a></li>
-		</ul>
-	</section>
-</section>
+<div class="container">
+    <ol class="breadcrumb glakho">
+            <li><a href="#">მთავარი</a></li>
+            <li class="active">ჩვენს შესახებ</li>
+        </ol>
 
-<main>
-	<section class="center">
-		<section class="title"><?=(isset($data["pageData"]["title"])) ? $data["pageData"]["title"] : ""?></section>
+    <!-- Page Content -->
+    <div id="page-content" style="display: block;">
+        <div class="">
+            <div class="row">
+                <!--MAIN Content-->
+                <div class="col-md-8" style="min-height: 754px;">
+                    <div id="page-main">
+                       <section id="contact">
+                            <header><h1 class="ninoMtavruli"><?=$data['pageData']['title']?></h1></header>
+                            <div class="row">
+                                <div class="col-md-6 glakho" style="min-height: 354px;">
+                                	<?php 
+                                	// echo "<pre>";
+                                	// print_r($data["contactdetails"]);
+                                	// echo "</pre>";
+                                	?>
+                                    <address>
+                                        <h3>VIP Intellect Group</h3>
+                                        <br>
+                                        <span><?=strip_tags($data["contactdetails"][1]["description"])?></span>
+                                        <br><br>
+                                        <abbr title="<?=$l->translate("contactnumber")?>"><?=$l->translate("contactnumber")?>:</abbr> <?=strip_tags($data["contactdetails"][0]["description"])?>
+                                        <br>
+                                        <abbr title="<?=$l->translate("email")?>"><?=$l->translate("email")?>:</abbr> 
+                                        <a href="mailto:"><?=strip_tags($data["contactdetails"][2]["description"])?></a>
+                                    </address>
+                                    <div class="icons">
+										<?php
+											foreach ($data["socialnetworks"] as $item) {
+												echo sprintf(
+												"<a href=\"%s\" target=\"_blank\"><i class=\"%s\"></i></a>\n", 
+												$item['url'], 
+												$item['classname']
+												);
+											}
+										?>
+                                    </div><!-- /.icons -->
+                                    
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="map-wrapper" id="map-wrapper" style="min-height: 354px;">
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
 
-		<section class="col-lg-9 leftside">
-			<section class="map" id="map"></section>
+                        <section id="contact-form" class="clearfix">
+                            <header><h2 class="ninoMtavruli"><?=$l->translate("writeus")?></h2></header>
+                            <form class="contact-form glakho" id="contactform" method="post" action="">
+                                <div class="row">
+                                    <div class="col-md-6" style="min-height: 72px;">
+                                        <div class="input-group">
+                                            <div class="controls">
+                                                <label for="name"><?=$l->translate("namelname")?></label>
+                                                <input type="text" name="name" id="name" required="">
+                                            </div><!-- /.controls -->
+                                        </div><!-- /.control-group -->
+                                    </div><!-- /.col-md-4 -->
+                                    <div class="col-md-6" style="min-height: 72px;">
+                                        <div class="input-group">
+                                            <div class="controls">
+                                                <label for="email"><?=$l->translate("email")?></label>
+                                                <input type="email" name="email" id="email" required="">
+                                            </div><!-- /.controls -->
+                                        </div><!-- /.control-group -->
+                                    </div><!-- /.col-md-4 -->
+                                </div><!-- /.row -->
+                                <div class="row">
+                                    <div class="col-md-12" style="min-height: 158px;">
+                                        <div class="input-group">
+                                            <div class="controls">
+                                                <label for="message"><?=$l->translate("message")?></label>
+                                                <textarea name="message" id="message" required=""></textarea>
+                                            </div><!-- /.controls -->
+                                        </div><!-- /.control-group -->
+                                    </div><!-- /.col-md-4 -->
+                                </div><!-- /.row -->
+                                <div class="pull-right">
+                                    <input type="submit" class="btn btn-color-primary" id="submit" value="<?=$l->translate("send")?>" style="background-color: #000000" />
+                                </div><!-- /.form-actions -->
+                                <div id="form-status"></div>
+                            </form><!-- /.footer-form -->
+                        </section>
+                    </div><!-- /#page-main -->
+                </div><!-- /.col-md-8 -->
 
-			<section class="title" style="text-align: left"><?=$l->translate("sendusmessage")?></section>
-			<form action="javascript:void(0)" method="get" class="contactForm" id="contactForm" style="margin:0">
-				<section class="alert alert-warning contact-error-message" style="display: none"></section>
-				<div class="input-group">
-					<input type="text" class="form-control" autocomplete="off" name="firstname" placeholder="Nom et Prénom" />
-				</div>
-				<div class="input-group">
-					<input type="text" class="form-control" autocomplete="off" name="email" placeholder="<?=$l->translate("email")?>" />
-				</div>
-				<div class="input-group">
-					<input type="text" class="form-control" autocomplete="off" name="subject" placeholder="Objet" />
-				</div>
-				<div class="input-group">
-					<textarea name="message" name="massage" autocomplete="off" placeholder="<?=$l->translate("message")?>"></textarea>
-				</div>
-				<button class="sendmessage" data-plzwait="<?=htmlentities($l->translate("plzwait"))?>"><?=$l->translate("send")?></button>
-			</form>
-		</section>
+                <!--SIDEBAR Content-->
+                <div class="col-md-4" style="min-height: 754px;">
+                    <div id="page-sidebar" class="sidebar">
+                        <aside class="news-small" id="news-small">
+                            <header>
+                                <h2 class="ninoMtavruli"><?=$l->translate("lastnews")?></h2>
+                            </header>
+                            <div class="section-content glakho">
+                                <?=$data["news"]?>
+                            </div><!-- /.section-content -->
+                            <a href="/<?=$_SESSION["LANG"]?>/news" class="read-more glakho"><?=$l->translate("allnews")?></a>
+                        </aside><!-- /.news-small -->
+                        
+                       
+                    </div><!-- /#sidebar -->
+                </div><!-- /.col-md-4 -->
+            </div><!-- /.row -->
+        </div>
+    </div>
+    <!-- end Page Content -->
+</div>
 
-		<section class="col-lg-3 rightside">
-			<section class="contact-info">
-				<h3><?=$l->translate("contactinfo")?></h3>
-				<?=$data["contactinfo"]?>
-			</section>
-		</section>
-	</section>
-</main>
-
-<section class="clearer"></section>
-
+<?=$data['footer']?>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("body").removeClass("page-homepage-carousel");
+        $("body").addClass("page-sub-page page-contact");
+    });
+</script>
 <script type="text/javascript">
 var map;
 function initMap() {
 	var mapOptions = {
-        zoom: 14,
-        center: new google.maps.LatLng(<?=strip_tags($data["contactMap"])?>),
-        styles: [{"featureType":"water","elementType":"geometry","stylers":[{"color":"#e9e9e9"},{"lightness":17}]},{"featureType":"landscape","elementType":"geometry","stylers":[{"color":"#f5f5f5"},{"lightness":20}]},{"featureType":"road.highway","elementType":"geometry.fill","stylers":[{"color":"#ffffff"},{"lightness":17}]},{"featureType":"road.highway","elementType":"geometry.stroke","stylers":[{"color":"#ffffff"},{"lightness":29},{"weight":0.2}]},{"featureType":"road.arterial","elementType":"geometry","stylers":[{"color":"#ffffff"},{"lightness":18}]},{"featureType":"road.local","elementType":"geometry","stylers":[{"color":"#ffffff"},{"lightness":16}]},{"featureType":"poi","elementType":"geometry","stylers":[{"color":"#f5f5f5"},{"lightness":21}]},{"featureType":"poi.park","elementType":"geometry","stylers":[{"color":"#dedede"},{"lightness":21}]},{"elementType":"labels.text.stroke","stylers":[{"visibility":"on"},{"color":"#ffffff"},{"lightness":16}]},{"elementType":"labels.text.fill","stylers":[{"saturation":36},{"color":"#333333"},{"lightness":40}]},{"elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"transit","elementType":"geometry","stylers":[{"color":"#f2f2f2"},{"lightness":19}]},{"featureType":"administrative","elementType":"geometry.fill","stylers":[{"color":"#fefefe"},{"lightness":20}]},{"featureType":"administrative","elementType":"geometry.stroke","stylers":[{"color":"#fefefe"},{"lightness":17},{"weight":1.2}]}]
-    };
-	map = new google.maps.Map(document.getElementById('map'), mapOptions);
+	    zoom: 14,
+	    center: new google.maps.LatLng(<?=strip_tags($data["contactdetails"][3]["description"])?>)
+	};
+	map = new google.maps.Map(document.getElementById('map-wrapper'), mapOptions);
 	var marker = new google.maps.Marker({
-        position: new google.maps.LatLng(<?=strip_tags($data["contactMap"])?>), 
-        map: map,
-        animation: google.maps.Animation.DROP,
-        title: 'Snazzy!',
-        icon: '<?=Config::PUBLIC_FOLDER?>img/marker-yellow.png'
-    });
+	    position: new google.maps.LatLng(<?=strip_tags($data["contactdetails"][3]["description"])?>), 
+	    map: map,
+	    animation: google.maps.Animation.DROP,
+	    title: '',
+	    icon: '/public/img/marker.png'
+	});
 }
 </script>
-<!-- https://console.developers.google.com -->
- <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDuNVK1o6mUkHGOO44eULUbWzLnkXDkUW4&amp;callback=initMap" type="text/javascript"></script>
 
-<?=$data['footer']?>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDK5b4tMRvYTEZIjD0z94rr7Dw-eQ5ojcQ&amp;callback=initMap" type="text/javascript"></script>
+</body>
+</html>

@@ -15,6 +15,7 @@ class Image extends Controller
 		$w = functions\request::index("GET","w");
 		$h = functions\request::index("GET","h");
 		$grey = (functions\request::index("GET","grey")) ? functions\request::index("GET","grey") : false;
+		$full = (functions\request::index("GET","full")) ? functions\request::index("GET","full") : false;
 
 		$filename = explode(Config::WEBSITE, $f);
 		if(isset($filename[1]) && file_exists($filename[1])){
@@ -22,13 +23,15 @@ class Image extends Controller
 			$fileSize = filesize($filename[1]);
 			
 			$resizeDir = "public/_temporaty/";
-			$resizeFileName = $fileSize. "-" . $w . "-" . $h . "-". $grey . "-" . str_replace(array("/", " "), "-", $filename[1]);
+			$resizeFileName = $fileSize. "-" . $w . "-" . $h . "-". $grey . $full . "-" . str_replace(array("/", " "), "-", $filename[1]);
 			$resizePath = $resizeDir . $resizeFileName;
 
 			$manager = new ImageManager(array('driver' => 'gd'));
 			if(!file_exists($resizePath)){
 				if($grey){
 					$manager->make($filename[1])->fit($w, $h)->greyscale()->save($resizePath);
+				}else if($full){
+					$manager->make($filename[1])->save($resizePath);
 				}else{
 					$manager->make($filename[1])->fit($w, $h)->save($resizePath);
 				}

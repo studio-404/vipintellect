@@ -1,12 +1,12 @@
 <?php 
-class Contact extends Controller
+class Gallery extends Controller
 {
 	public function __construct()
 	{
-		
+
 	}
 
-	public function index($name = '')
+	public function index($name = "")
 	{
 		/* DATABASE */
 		$db_langs = new Database("language", array(
@@ -58,6 +58,22 @@ class Contact extends Controller
 			"num"=>Config::LEFTSIDE_NEWS_NUM
 		));
 
+		$db_staff = new Database("modules", array(
+			"method"=>"selectModuleByType", 
+			"type"=>"staff",
+			"from"=>0,
+			"num"=>Config::HOME_PAGE_STAFF_NUM
+		));
+
+		$db_gallery = new Database("modules", array(
+			"method"=>"selectModuleByType", 
+			"type"=>"gallery"
+		));
+
+		/* gallery module */
+		$gallery = $this->model('_gallery');
+		$gallery->data = $db_gallery->getter();
+
 		/* HEDARE */
 		$header = $this->model('_header');
 		$header->public = Config::PUBLIC_FOLDER; 
@@ -84,6 +100,9 @@ class Contact extends Controller
 		$news = $this->model('_homenews');
 		$news->data = $db_news->getter();
 
+		/* Home page staff */
+		$staff = $this->model('_homestaff');
+		$staff->data = $db_staff->getter();
 
 		$pageDatax = $db_pagedata->getter();
 		
@@ -97,7 +116,7 @@ class Contact extends Controller
 
 	
 		/* view */
-		$this->view('contact/index', [
+		$this->view('gallery/index', [
 			"header"=>array(
 				"website"=>Config::WEBSITE,
 				"public"=>Config::PUBLIC_FOLDER
@@ -106,9 +125,9 @@ class Contact extends Controller
 			"pageData"=>$pageDatax, 
 			"headertop"=>$headertop->index(), 
 			"news"=>$news->index(), 
-			"contactdetails"=>$db_contactdetails->getter(), 
+			"staff"=>$staff->index(), 
 			"sub_navigation"=>$db_dub_navigation->getter(), 
-			"socialnetworks"=>$db_socialnetworks->getter(), 
+			"gallery"=>$gallery->index(), 
 			"footer"=>$footer->index() 
 		]);
 	}

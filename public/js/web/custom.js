@@ -219,6 +219,15 @@ $(document).ready(function($) {
         });
     }
 
+    if ($('.video-popup').length > 0) {
+        $('a.video-popup').vanillabox({
+            animation: 'default',
+            type: 'iframe',
+            closeButton: true,
+            repositionOnScroll: true
+        });
+    }
+
 //  Calendar
 
     if ($('.calendar').length > 0) {
