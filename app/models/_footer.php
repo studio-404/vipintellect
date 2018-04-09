@@ -212,13 +212,7 @@ class _footer
 		$out .= sprintf(
 			"<script src=\"%sjs/web/custom.js\" charset=\"utf-8\"></script>\n", 
 			Config::PUBLIC_FOLDER
-		);
-
-		
-		$out .= "</body>\n";
-		$out .= "</html>\n";
-		
-		
+		);	
 
 		return $out;
 	}

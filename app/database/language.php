@@ -14,10 +14,12 @@ class language
 
 	private function select($args)
 	{
+		require_once("app/functions/string.php");
 		$out = "[]";
-
-		$json = Config::CACHE."language_".str_replace(array("-"," "), "", implode("_",$_SESSION['URL'])).".json";
-
+		$string = new functions\string();
+		$utf82lat = $string->cut(functions\string::utf82lat(implode("_",$_SESSION['URL'])), 20);
+		$json = Config::CACHE."language_".str_replace(array("-"," ",",","..."), "", $utf82lat).".json";
+		// echo $json;
 		if(file_exists($json)){
 			$out = @file_get_contents($json); 
 		}else{

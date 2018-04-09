@@ -129,16 +129,7 @@ class News extends Controller
 				"from"=>0, 
 				"num"=>5
 			));
-			/* MAIN NEWS */
-			// $mainnews = $this->model('_mainnews');
-			// $mainnews->data = $db_news->getter();
-
-			/* OTHER NEWS */
-			// $othernews = $this->model('_othernews');
-			// $othernews->data = $db_news2->getter();
-			// $othernews->startAt = 0;
-
-			// $mainnews->inside = "true";
+			
 			/* view */
 			$this->view('news/index', [
 				"header"=>array(
@@ -147,11 +138,10 @@ class News extends Controller
 				),
 				"headerModule"=>$header->index(), 
 				"pageData"=>$db_pagedata->getter(), 
-				// "mainnews"=>$mainnews->index(), 
-				// "publications"=>$publications->index(), 
-				// "othernews"=>$othernews->index(), 
-				// "headertop"=>$headertop->index(), 
-				// "footer"=>$footer->index() 
+				"headertop"=>$headertop->index(), 
+				"newsId"=>$newsId,
+				"news_inside"=>$db_news->getter(),
+				"footer"=>$footer->index() 
 			]);
 		}
 	}

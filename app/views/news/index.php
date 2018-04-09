@@ -22,6 +22,8 @@ echo $data['headertop'];
             <div class="row">
                 <!--MAIN Content-->
                 <div class="col-md-8">
+                	<?php 
+                	if(empty($data['newsId'])){ ?>
                     <div id="page-main">
                         <section class="blog-listing" id="blog-listing">
                             <header><h1 class="ninoMtavruli"><?=$data['pageData']['title']?></h1></header>
@@ -40,6 +42,44 @@ echo $data['headertop'];
                         </div>
                     	<?php endif; ?>
                     </div><!-- /#page-main -->
+                    <?php }else{ ?>
+                    
+
+
+                    <div id="page-main">
+                        <section id="about">
+                           <header><h1 class="ninoMtavruli"><?=$data['news_inside']['title']?></h1></header>
+                           <?php 
+                           $photos = new Database("photos",array(
+								"method"=>"selectByParent", 
+								"idx"=>(int)$data['news_inside']['idx'],  
+								"lang"=>strip_output::index($data['news_inside']['lang']),  
+								"type"=>strip_output::index($data['news_inside']['type'])
+							));
+							if($photos->getter()){
+								$pic = $photos->getter();
+								$image = sprintf(
+									"%s%s/image/loadimage?f=%s%s&w=750&h=280",
+									Config::WEBSITE,
+									strip_output::index($_SESSION['LANG']),
+									Config::WEBSITE_,
+									strip_output::index($pic[0]['path'])
+								);
+								echo sprintf(
+									"<img src=\"%s\" alt=\"\" width=\"%s\" style=\"margin-bottom: 40px;\" />", 
+									$image,
+									"100%"
+								);
+							}
+
+                           echo strip_tags($data['news_inside']['description'], "<p><a><ul><li><br>");
+                           ?>
+                        </section><!-- /.blog-listing -->
+                    </div><!-- /#page-main -->
+
+
+
+                    <?php } ?>
                 </div><!-- /.col-md-8 -->
 
                 <!--SIDEBAR Content-->
@@ -60,13 +100,12 @@ echo $data['headertop'];
 </div>
 
 <?=$data['footer']?>
-
 <script type="text/javascript">
-	$(document).ready(function(){
-		$("body").removeClass("page-homepage-carousel");
-		$("body").addClass("page-sub-page page-blog-listing");
-	});
+    $(document).ready(function(){
+        $("body").removeClass("page-homepage-carousel");
+        $("body").addClass("page-sub-page page-about-us");
+    });
 </script>
-
 </body>
 </html>
+

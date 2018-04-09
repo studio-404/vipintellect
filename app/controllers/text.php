@@ -13,18 +13,12 @@ class Text extends Controller
 		$db_langs = new Database("language", array(
 			"method"=>"select"
 		));
-		
-		$db_socials = new Database("modules", array(
-			"method"=>"selectModuleByType", 
-			"type"=>"social"
-		));
 
-		$db_stateagencies = new Database("modules", array(
+		$db_contactdetails = new Database("modules", array(
 			"method"=>"selectModuleByType", 
-			"type"=>"stateagencies", 
-			"from"=>0, 
-			"num"=>10
+			"type"=>"contactdetails"
 		));
+	
 
 		$db_navigation = new Database("page", array(
 			"method"=>"select", 
@@ -34,6 +28,11 @@ class Text extends Controller
 			"status"=>0 
 		));
 
+		$db_usefulllinks = new Database("modules", array(
+			"method"=>"selectModuleByType", 
+			"type"=>"usefulllinks"
+		));
+
 		$s = (isset($_SESSION["URL"][1])) ? $_SESSION["URL"][1] : Config::MAIN_CLASS;
 		$db_pagedata = new Database("page", array(
 			"method"=>"selecteBySlug", 
@@ -41,45 +40,50 @@ class Text extends Controller
 			"lang"=>$_SESSION['LANG'], 
 			"all"=>true
 		));
-		$db_footer = new Database("modules", array(
-			"method"=>"selectById", 
-			"idx"=>18,
+
+		$db_socialnetworks = new Database("modules", array(
+			"method"=>"selectModuleByType", 
+			"type"=>"socialnetworks"
+		));
+		
+		$db_footerHelpNav = new Database("page", array(
+			"method"=>"selecteByCid", 
+			"cid"=>7, 
 			"lang"=>$_SESSION['LANG']
 		));
 
-		
+		$db_news = new Database("modules", array(
+			"method"=>"selectModuleByType", 
+			"type"=>"news",
+			"from"=>0,
+			"num"=>Config::LEFTSIDE_NEWS_NUM
+		));
 
 		/* HEDARE */
 		$header = $this->model('_header');
 		$header->public = Config::PUBLIC_FOLDER; 
-		$header->lang = $_SESSION["LANG"]; 
-		$header->pagedata = $db_pagedata; 
-		
-		/* SOCIAL */
-		$social = $this->model('_social');
-		$social->networks = $db_socials->getter(); 
-
-		/* LANGUAGES */
-		$languages = $this->model('_lang'); 
-		$languages->langs = $db_langs->getter();
+		$header->lang = $_SESSION["LANG"]; 	
+		$header->pagedata = $db_pagedata; 	
 
 		/* NAVIGATION */
 		$navigation = $this->model('_navigation');
 		$navigation->data = $db_navigation->getter();
 
-		/* state agencies */
-		$stateagencies = $this->model('_stateagencies');
-		$stateagencies->data = $db_stateagencies->getter();
-
 		/* header top */
 		$headertop = $this->model('_top');
-		$headertop->data["socialNetworksModule"] = $social->index();
-		$headertop->data["languagesModule"] = $languages->index();
+		$headertop->data["contactdetails"] = $db_contactdetails->getter();
 		$headertop->data["navigationModule"] = $navigation->index();
 
 		/*footer */
 		$footer = $this->model('_footer');
-		$footer->data = $db_footer->getter(); 
+		$footer->data["contactdetails"] = $db_contactdetails->getter();
+		$footer->data["footerHelpNav"] = $db_footerHelpNav->getter();
+		$footer->data["usefulllinks"] = $db_usefulllinks->getter();
+		$footer->data["socialnetworks"] = $db_socialnetworks->getter();
+
+		/* Leftside news */
+		$news = $this->model('_homenews');
+		$news->data = $db_news->getter();
 
 	
 		/* view */
@@ -90,8 +94,8 @@ class Text extends Controller
 			),
 			"headerModule"=>$header->index(), 
 			"pageData"=>$db_pagedata->getter(), 
-			"stateagencies"=>$stateagencies->index(), 
 			"headertop"=>$headertop->index(), 
+			"news"=>$news->index(), 
 			"footer"=>$footer->index() 
 		]);
 	}

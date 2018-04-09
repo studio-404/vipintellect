@@ -144,12 +144,24 @@ html {
 
 p {
   color: #767676;
-  line-height: 20px;
   margin-top: 0px;
+  font-family: 'BPGGlaxo' !important;
+  font-size: 16px;
+  line-height: 25px;
+}
+
+p a{
+  color: #ff0000;
+}
+
+p a:hover{
+  color: #ff0000;
+  text-decoration: underline !important;
 }
 
 ul {
   padding-left: 10px;
+  margin-left: 10px;
 }
 ul li {
   padding: 5px 0;

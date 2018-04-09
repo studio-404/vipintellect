@@ -78,6 +78,13 @@ class Home extends Controller
 			"method"=>"selectModuleByType", 
 			"type"=>"socialnetworks"
 		));
+
+		$db_news = new Database("modules", array(
+			"method"=>"selectModuleByType", 
+			"type"=>"news",
+			"from"=>0,
+			"num"=>Config::HOME_PAGE_NEWS_NUM
+		));
 		
 
 		/* HEDARE */
@@ -89,6 +96,10 @@ class Home extends Controller
 		/* NAVIGATION */
 		$navigation = $this->model('_navigation');
 		$navigation->data = $db_navigation->getter();
+
+		/* Home page news */
+		$news = $this->model('_homenews');
+		$news->data = $db_news->getter();
 
 		/* slidr */
 		$slider = $this->model('_slider');
@@ -119,6 +130,7 @@ class Home extends Controller
 			"pageData"=>$db_pagedata->getter(), 
 			"slogan"=>$db_slogan->getter(), 
 			"howfindus"=>$db_howfindus->getter(), 
+			"news"=>$news->index(), 
 			"slider"=>$slider->index(), 
 			"footer"=>$footer->index() 
 		]);

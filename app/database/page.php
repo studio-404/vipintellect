@@ -368,12 +368,16 @@ class page
 		$photos = new Database('photos', array(
 			'method'=>'deleteByParent', 
 			'idx'=>$idx, 
-			'type'=>$type,  
-			'lang'=>$lang  
+			'type'=>$type 
 		));
 
-		if(count($args["serialPhotos"])){
+		$select = "SELECT `title` FROM `languages`";
+		$prepare = $this->conn->prepare($select);
+		$prepare->execute();
+		$fetch = $prepare->fetchAll(PDO::FETCH_ASSOC);
 
+		foreach ($fetch as $val) :
+		if(count($args["serialPhotos"])){
 			foreach($args["serialPhotos"] as $pic) {
 				if(!empty($pic)):
 				$photo = 'INSERT INTO `photos` SET `parent`=:parent, `path`=:pathx, `type`=:type, `lang`=:lang, `status`=:zero';
@@ -382,12 +386,13 @@ class page
 					":parent"=>$idx, 
 					":pathx"=>$pic, 
 					":type"=>$type, 
-					":lang"=>$lang, 
+					":lang"=>$val['title'], 
 					":zero"=>0
 				));
 				endif;
 			}
 		}
+		endforeach;
 
 
 		// remove old files

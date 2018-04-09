@@ -32,12 +32,11 @@ class photos
 
 	private function deleteByParent($args)
 	{
-		$delete = "DELETE FROM `photos` WHERE `parent`=:idx AND `type`=:type AND `lang`=:lang";
+		$delete = "DELETE FROM `photos` WHERE `parent`=:idx AND `type`=:type";
 		$prepareDel = $this->conn->prepare($delete);
 		$prepareDel->execute(array(
 			":idx"=>$args["idx"], 
-			":type"=>$args["type"], 
-			":lang"=>$args["lang"]  
+			":type"=>$args["type"] 
 		));
 		if($prepareDel->rowCount()){
 			return 1;

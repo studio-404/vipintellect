@@ -130,24 +130,13 @@ echo $data['headertop'];
               <div class="col-md-4 col-sm-6">
                   <section class="news-small" id="news-small">
                       <header>
-                          <h2 class="ninoMtavruli">სიახლეები</h2>
+                          <h2 class="ninoMtavruli"><?=$l->translate("news")?></h2>
                       </header>
                       <div class="section-content glakho">
-                          <article>
-                              <figure class="date"><i class="fa fa-file-o"></i>02-04-2018</figure>
-                              <header><a href="#">კავკასიის უნივერსიტეტის ბაზაზე 2012 წელს დაფუძნდა კავკასიის უნივერსტეტის ტრენინგ ცენტრი</a></header>
-                          </article><!-- /article -->
-                          <article>
-                              <figure class="date"><i class="fa fa-file-o"></i>02-04-2018</figure>
-                              <header><a href="#">კავკასიის უნივერსიტეტის ბაზაზე 2012 წელს დაფუძნდა კავკასიის უნივერსტეტის ტრენინგ ცენტრი</a></header>
-                          </article><!-- /article -->
-                          <article>
-                              <figure class="date"><i class="fa fa-file-o"></i>02-04-2018</figure>
-                              <header><a href="#">კავკასიის უნივერსიტეტის ბაზაზე 2012 წელს დაფუძნდა კავკასიის უნივერსტეტის ტრენინგ ცენტრი</a></header>
-                          </article><!-- /article -->
+                          <?=$data["news"]?>                          
                       </div><!-- /.section-content -->
                       <div class="clear"></div>
-                      <a href="" class="read-more stick-to-bottom glakho" style="font-size: 12px;">ყველა სიახლე</a>
+                      <a href="/<?=$_SESSION["LANG"]?>/news" class="read-more stick-to-bottom glakho" style="font-size: 12px;"><?=$l->translate("allnews")?></a>
                   </section><!-- /.news-small -->
               </div><!-- /.col-md-4 -->
               <div class="col-md-4 col-sm-6">
@@ -310,3 +299,6 @@ echo $data['headertop'];
 
 
 <?=$data['footer']?>
+
+</body>
+</html>

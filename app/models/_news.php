@@ -96,7 +96,7 @@ class _news
 					$sting->cut($title, 70)
 				);
 				$out .= "</header>";
-				$out .= "<div class=\"description\">";
+				$out .= "<div class=\"description\" style=\"word-wrap: break-word;\">";
 				$out .= sprintf(
 					"<p>%s</p>",
 					$sting->cut($value['description'], 160)
