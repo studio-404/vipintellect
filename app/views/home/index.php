@@ -145,37 +145,12 @@ echo $data['headertop'];
                           <h2 class="ninoMtavruli">ვაკანსიები</h2>
                       </header>
                       <div class="section-content glakho">
-                          <article class="event nearest">
-                              <aside style="padding: 0">
-                                  <header>
-                                      <a href="event-detail.html">3D max-ის ინსტრუქტორი</a>
-                                  </header>
-                                  <div class="additional-info">ინფორმაციული ტექნოლოგიები</div>
-                              </aside>
-                          </article><!-- /article -->
-
-                          <article class="event nearest">
-                              <aside style="padding: 0">
-                                  <header>
-                                      <a href="event-detail.html">3D max-ის ინსტრუქტორი</a>
-                                  </header>
-                                  <div class="additional-info">ინფორმაციული ტექნოლოგიები</div>
-                              </aside>
-                          </article><!-- /article -->
-
-                          <article class="event nearest">
-                              <aside style="padding: 0">
-                                  <header>
-                                      <a href="event-detail.html">3D max-ის ინსტრუქტორი</a>
-                                  </header>
-                                  <div class="additional-info">ინფორმაციული ტექნოლოგიები</div>
-                              </aside>
-                          </article><!-- /article -->
+                          <?=$data['vacancies']?>
                           
                       </div><!-- /.section-content -->
                   </section><!-- /.events-small -->
                   <div class="clear"></div>
-                  <a href="" class="read-more stick-to-bottom glakho" style="font-size: 12px;">ყველა ვაკანსია</a>
+                  <a href="/<?=$_SESSION["LANG"]?>/vacancies" class="read-more glakho" style="font-size: 12px;"><?=$l->translate("allvacancies")?></a>
               </div><!-- /.col-md-4 -->
               <div class="col-md-4 col-sm-12">
                   <section id="about">
@@ -186,7 +161,7 @@ echo $data['headertop'];
                           <img src="assets/img/students.jpg" alt="" class="add-margin">
                           <p>კავკასიის უნივერსიტეტის ისტორია იწყება 1998 წლიდან, კავკასიის ბიზნესის სკოლის შექმნით. მისი დევიზია: "Studium Pretium Libertatis" - ,,ცოდნა თავისუფლების საწინდარია”.</p>
                           <p>კავკასიის უნივერსიტეტი სტუდენტებს სთავაზობს მაღალი დონის განათლებას, საერთაშორისო პროგრამებს, პრაქტიკაზე ორიენტირებულ სწავლებას.</p>
-                          <a href="" class="read-more" style="font-size: 12px;">წაიკითხე მეტი</a>
+                          <a href="" class="read-more" style="font-size: 12px;"><?=$l->translate("more")?></a>
                       </div><!-- /.section-content -->
                   </section><!-- /.about -->
               </div><!-- /.col-md-4 -->
@@ -206,40 +181,10 @@ echo $data['headertop'];
                       </header>
                       <div class="section-content">
                           <div class="professors">
-                              <article class="professor-thumbnail glakho">
-                                  <figure class="professor-image">
-                                      <a href="#">
-                                          <img src="<?=Config::WEBSITE?>/public/img/professor.jpg" alt="" />
-                                      </a>
-                                  </figure>
-                                  <aside>
-                                      <header>
-                                          <a href="#">ჯონ დოუ</a>
-                                          <div class="divider"></div>
-                                          <figure class="professor-description">გაძლიერებული ექსელის ინსტრუქტორი</figure>
-                                      </header>
-                                      <a href="#" class="show-profile">პროფილის ნახვა</a>
-                                  </aside>
-                              </article><!-- /.professor-thumbnail -->
-
-                              <article class="professor-thumbnail glakho">
-                                  <figure class="professor-image">
-                                      <a href="#">
-                                          <img src="<?=Config::WEBSITE?>/public/img/professor.jpg" alt="" />
-                                      </a>
-                                  </figure>
-                                  <aside>
-                                      <header>
-                                          <a href="#">ჯონ დოუ</a>
-                                          <div class="divider"></div>
-                                          <figure class="professor-description">გაძლიერებული ექსელის ინსტრუქტორი</figure>
-                                      </header>
-                                      <a href="#" class="show-profile">პროფილის ნახვა</a>
-                                  </aside>
-                              </article><!-- /.professor-thumbnail -->
-                              
-                              <a href="#" class="read-more stick-to-bottom glakho" style="font-size: 12px;">ნახე მეტი</a>
+                              <?=$data["staff"]?>
+                              <a href="/<?=$_SESSION["LANG"]?>/staff" class="read-more glakho" style="font-size: 12px;"><?=$l->translate("more")?></a>                            
                           </div><!-- /.professors -->
+                              
                       </div><!-- /.section-content -->
                   </section><!-- /.our-professors -->
               </div><!-- /.col-md-4 -->
@@ -278,12 +223,32 @@ echo $data['headertop'];
                           <h2 class="ninoMtavruli">პარტნიორები &amp; დონორები</h2>
                       </header>
                       <div class="section-content">
-                          <div class="logos">
-                              <div class="logo"><a href=""><img src="<?=Config::WEBSITE?>/public/img/logo-partner-01.png" alt=""></a></div>
-                              <div class="logo"><a href=""><img src="<?=Config::WEBSITE?>/public/img/logo-partner-02.png" alt=""></a></div>
-                              <div class="logo"><a href=""><img src="<?=Config::WEBSITE?>/public/img/logo-partner-03.png" alt=""></a></div>
-                              <div class="logo"><a href=""><img src="<?=Config::WEBSITE?>/public/img/logo-partner-04.png" alt=""></a></div>
-                              <div class="logo"><a href=""><img src="<?=Config::WEBSITE?>/public/img/logo-partner-05.png" alt=""></a></div>
+                          <div class="logos">                        
+                              <div class="logo">
+                                <a href="">
+                                  <img src="<?=Config::WEBSITE?>/public/img/logo-partner-01.png" alt="">
+                                </a>
+                              </div>
+                              <div class="logo">
+                                  <a href="">
+                                    <img src="<?=Config::WEBSITE?>/public/img/logo-partner-02.png" alt="">
+                                  </a>
+                              </div>
+                              <div class="logo">
+                                <a href="">
+                                  <img src="<?=Config::WEBSITE?>/public/img/logo-partner-03.png" alt="">
+                                </a>
+                              </div>
+                              <div class="logo">
+                                <a href="">
+                                  <img src="<?=Config::WEBSITE?>/public/img/logo-partner-04.png" alt="">
+                                </a>
+                              </div>
+                              <div class="logo">
+                                <a href="">
+                                  <img src="<?=Config::WEBSITE?>/public/img/logo-partner-05.png" alt="">
+                                </a>
+                              </div> 
                           </div>
                       </div>
                   </section>
@@ -299,6 +264,7 @@ echo $data['headertop'];
 
 
 <?=$data['footer']?>
+
 
 </body>
 </html>

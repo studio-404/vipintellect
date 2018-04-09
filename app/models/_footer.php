@@ -145,7 +145,7 @@ class _footer
 		$out .= "<section id=\"footer-bottom\" style=\"border-top: solid 1px rgba(255, 255, 255, 0.05);\">";
 		$out .= "<div class=\"container\">";
 		$out .= "<div class=\"footer-inner\">";
-		$out .= "<div class=\"copyright\">© 2018 VIP Intellect Group</div>";
+		$out .= "<div class=\"copyright\">© 2018 VIP Intellect Group - Developed by <a href=\"http://ww.404.ge\" target=\"_blank\">Studio 404</a></div>";
 		$out .= "</div>";
 		$out .= "</div>";
 		$out .= "</section>";

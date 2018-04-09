@@ -2,10 +2,8 @@
 require_once("app/functions/l.php"); 
 require_once("app/functions/strip_output.php");
 require_once("app/functions/pagination.php");
-require_once("app/functions/archive.php");
 $l = new functions\l();
 $pagination = new functions\pagination();
-$archive = new functions\archive();
 echo $data['headerModule']; 
 echo $data['headertop']; 
 ?>
@@ -13,7 +11,7 @@ echo $data['headertop'];
 <div class="container">
     <ol class="breadcrumb glakho">
             <li><a href="#">მთავარი</a></li>
-            <li class="active">სიახლეები</li>
+            <li class="active">ვაკანსიები</li>
         </ol>
 
     <!-- Page Content -->
@@ -23,18 +21,18 @@ echo $data['headertop'];
                 <!--MAIN Content-->
                 <div class="col-md-8">
                 	<?php 
-                	if(empty($data['newsId'])){ ?>
+                	if(empty($data['vacanciesId'])){ ?>
                     <div id="page-main">
-                        <section class="blog-listing" id="blog-listing">
+                        <section class="events" id="events">
                             <header><h1 class="ninoMtavruli"><?=$data['pageData']['title']?></h1></header>
                             <div class="row">
-                                <?=$data['news']['html']?>
+                                <?=$data['vacancies']['html']?>
                             </div><!-- /.row -->                  
                         </section><!-- /.blog-listing -->
-                        <?php if($data['news']['count']>Config::NEWS_PER_PAGE): ?>
+                        <?php if(isset($data['vacancies']['count']) && $data['vacancies']['count']>Config::NEWS_PER_PAGE): ?>
                         <div class="center">
                         	<?php
-                        	echo $pagination->intellect_pagination($data['news']['count'], Config::NEWS_PER_PAGE);
+                        	echo $pagination->intellect_pagination($data['vacancies']['count'], Config::NEWS_PER_PAGE);
                         	?>
                         </div>
                     	<?php endif; ?>
@@ -45,13 +43,13 @@ echo $data['headertop'];
 
                     <div id="page-main">
                         <section id="about">
-                           <header><h1 class="ninoMtavruli"><?=$data['news_inside']['title']?></h1></header>
+                           <header><h1 class="ninoMtavruli"><?=$data['vacancies_inside']['title']?></h1></header>
                            <?php 
                            $photos = new Database("photos",array(
 								"method"=>"selectByParent", 
-								"idx"=>(int)$data['news_inside']['idx'],  
-								"lang"=>strip_output::index($data['news_inside']['lang']),  
-								"type"=>strip_output::index($data['news_inside']['type'])
+								"idx"=>(int)$data['vacancies_inside']['idx'],  
+								"lang"=>strip_output::index($data['vacancies_inside']['lang']),  
+								"type"=>strip_output::index($data['vacancies_inside']['type'])
 							));
 							if($photos->getter()){
 								$pic = $photos->getter();
@@ -69,7 +67,7 @@ echo $data['headertop'];
 								);
 							}
 
-                           echo strip_tags($data['news_inside']['description'], "<p><a><ul><li><br>");
+                           echo strip_tags($data['vacancies_inside']['description'], "<p><a><ul><li><br>");
                            ?>
                         </section><!-- /.blog-listing -->
                     </div><!-- /#page-main -->
@@ -82,10 +80,10 @@ echo $data['headertop'];
                 <!--SIDEBAR Content-->
                 <div class="col-md-4">
                     <div id="page-sidebar" class="sidebar">
-                        <aside id="archive">
-                            <header>
-                                <h2 class="ninoMtavruli"><?=$l->translate("archive")?></h2>
-                                <?=$archive->index()?>
+                        <aside id="news-small" class="news-small">
+                            <header class="glakho"> 
+                                <h2 class="ninoMtavruli"><?=$l->translate("lastnews")?></h2>
+                                <?=$data["news"]?>
                             </header>
                         </aside><!-- /archive -->
                     </div><!-- /#sidebar -->
@@ -100,7 +98,11 @@ echo $data['headertop'];
 <script type="text/javascript">
     $(document).ready(function(){
         $("body").removeClass("page-homepage-carousel");
+        <?php if(empty($data["vacanciesId"])){ ?>
+        $("body").addClass("page-sub-page page-blog-listing");
+        <?php }else{ ?>
         $("body").addClass("page-sub-page page-about-us");
+        <?php } ?>
     });
 </script>
 </body>

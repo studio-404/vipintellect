@@ -1,20 +1,9 @@
 <?php
 class Home extends Controller
 {
-	public $emailComfirmed = false;
 	public function __construct()
 	{
-		require_once 'app/functions/request.php';
-		if(functions\request::index("GET", "confirm")){
-			$email_random = functions\request::index("GET", "confirm");
-			$db_user = new Database("user", array(
-				"method"=>"emailConfirm",
-				"email_random"=>$email_random
-			));
-			if($db_user->output){
-				$this->emailComfirmed = true;
-			}
-		}
+		
 	}
 
 	public function index($name = '')
@@ -85,6 +74,20 @@ class Home extends Controller
 			"from"=>0,
 			"num"=>Config::HOME_PAGE_NEWS_NUM
 		));
+
+		$db_vacancies = new Database("modules", array(
+			"method"=>"selectModuleByType", 
+			"type"=>"vacancies",
+			"from"=>0,
+			"num"=>Config::HOME_PAGE_VACANCIES_NUM
+		));
+
+		$db_staff = new Database("modules", array(
+			"method"=>"selectModuleByType", 
+			"type"=>"staff",
+			"from"=>0,
+			"num"=>Config::HOME_PAGE_STAFF_NUM
+		));
 		
 
 		/* HEDARE */
@@ -100,6 +103,14 @@ class Home extends Controller
 		/* Home page news */
 		$news = $this->model('_homenews');
 		$news->data = $db_news->getter();
+
+		/* Home page staff */
+		$staff = $this->model('_homestaff');
+		$staff->data = $db_staff->getter();
+
+		/* Home page staff */
+		$vacancies = $this->model('_homevacancies');
+		$vacancies->data = $db_vacancies->getter();
 
 		/* slidr */
 		$slider = $this->model('_slider');
@@ -131,6 +142,8 @@ class Home extends Controller
 			"slogan"=>$db_slogan->getter(), 
 			"howfindus"=>$db_howfindus->getter(), 
 			"news"=>$news->index(), 
+			"staff"=>$staff->index(), 
+			"vacancies"=>$vacancies->index(), 
 			"slider"=>$slider->index(), 
 			"footer"=>$footer->index() 
 		]);

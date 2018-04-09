@@ -59,6 +59,13 @@ class Text extends Controller
 			"num"=>Config::LEFTSIDE_NEWS_NUM
 		));
 
+		$db_staff = new Database("modules", array(
+			"method"=>"selectModuleByType", 
+			"type"=>"staff",
+			"from"=>0,
+			"num"=>Config::HOME_PAGE_STAFF_NUM
+		));
+
 		/* HEDARE */
 		$header = $this->model('_header');
 		$header->public = Config::PUBLIC_FOLDER; 
@@ -85,6 +92,20 @@ class Text extends Controller
 		$news = $this->model('_homenews');
 		$news->data = $db_news->getter();
 
+		/* Home page staff */
+		$staff = $this->model('_homestaff');
+		$staff->data = $db_staff->getter();
+
+		$pageDatax = $db_pagedata->getter();
+		
+		$db_dub_navigation = new Database("page", array(
+			"method"=>"select", 
+			"cid"=>$pageDatax['idx'], 
+			"nav_type"=>0,
+			"lang"=>$_SESSION['LANG'],
+			"status"=>0 
+		));
+
 	
 		/* view */
 		$this->view('text/index', [
@@ -93,9 +114,11 @@ class Text extends Controller
 				"public"=>Config::PUBLIC_FOLDER
 			),
 			"headerModule"=>$header->index(), 
-			"pageData"=>$db_pagedata->getter(), 
+			"pageData"=>$pageDatax, 
 			"headertop"=>$headertop->index(), 
 			"news"=>$news->index(), 
+			"staff"=>$staff->index(), 
+			"sub_navigation"=>$db_dub_navigation->getter(), 
 			"footer"=>$footer->index() 
 		]);
 	}

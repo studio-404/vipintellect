@@ -21,7 +21,7 @@ echo $data['headertop'];
                     <div id="page-main">
                         <section id="about">
                             <header><h1 class="ninoMtavruli"><?=$data['pageData']['title']?></h1></header>
-                            <?php 
+                            <?php
                             $photos = new Database("photos",array(
 								"method"=>"selectByParent", 
 								"idx"=>(int)$data['pageData']['idx'],  
@@ -43,10 +43,18 @@ echo $data['headertop'];
 									"100%"
 								);
 							}
-
-							echo strip_tags($data['pageData']['text'], "<p><a><ul><li><br>");
+							echo strip_tags($data['pageData']['text'], "<p><a><ul><li><br><table><tr><td><strong>");
+                            
+                            if(count($data["sub_navigation"])):
                             ?>
-                           
+                                <ul class="list-links glakho">
+                                <?php foreach($data["sub_navigation"] as $item): ?>
+                                    <li>
+                                        <a href="<?=Config::WEBSITE.$_SESSION['LANG']?>/<?=$item['slug']?>"><?=$item['title']?></a>
+                                    </li>
+                                <?php endforeach; ?>
+                                </ul>
+                            <?php endif; ?>                           
                         </section>
                     </div><!-- /#page-main -->
                 </div><!-- /.col-md-8 -->
@@ -70,39 +78,8 @@ echo $data['headertop'];
                             </header>
                             <div class="section-content">
                                 <div class="professors">
-
-                                    <article class="professor-thumbnail glakho">
-                                        <figure class="professor-image">
-                                            <a href="#">
-                                                <img src="assets/img/professor.jpg" alt="">
-                                            </a>
-                                        </figure>
-                                        <aside>
-                                            <header>
-                                                <a href="#">ჯონ დოუ</a>
-                                                <div class="divider"></div>
-                                                <figure class="professor-description">გაძლიერებული ექსელის ინსტრუქტორი</figure>
-                                            </header>
-                                            <a href="#" class="show-profile">პროფილის ნახვა</a>
-                                        </aside>
-                                    </article><!-- /.professor-thumbnail -->
-
-                                    <article class="professor-thumbnail glakho">
-                                        <figure class="professor-image">
-                                            <a href="#">
-                                                <img src="assets/img/professor.jpg" alt="">
-                                            </a>
-                                        </figure>
-                                        <aside>
-                                            <header>
-                                                <a href="#">ჯონ დოუ</a>
-                                                <div class="divider"></div>
-                                                <figure class="professor-description">გაძლიერებული ექსელის ინსტრუქტორი</figure>
-                                            </header>
-                                            <a href="#" class="show-profile">პროფილის ნახვა</a>
-                                        </aside>
-                                    </article><!-- /.professor-thumbnail -->
-                                    <a href="" class="read-more glakho">ნახე მეტი</a>
+                                    <?=$data["staff"]?>
+                                    <a href="/<?=$_SESSION["LANG"]?>/staff" class="read-more glakho">ნახე მეტი</a>
                                 </div><!-- /.professors -->
                             </div><!-- /.section-content -->
                         </aside><!-- /.our-professors -->

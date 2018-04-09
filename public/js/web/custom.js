@@ -37,7 +37,7 @@ $(document).ready(function($) {
 
 //  Table Sorter
     if ($('.tablesorter').length > 0) {
-        $(".course-list-table").tablesorter();
+        // $(".course-list-table").tablesorter();
     }
 
 //  Rating

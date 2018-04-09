@@ -1,13 +1,12 @@
 <?php 
-class News extends Controller
+class Vacancies extends Controller
 {
-	
 	public function __construct()
 	{
-		
+
 	}
 
-	public function index($lang = '', $newsId = '')
+	public function index($name = "", $vacanciesId = "")
 	{
 		/* DATABASE */
 		$db_langs = new Database("language", array(
@@ -52,6 +51,13 @@ class News extends Controller
 			"lang"=>$_SESSION['LANG']
 		));
 
+		$db_news = new Database("modules", array(
+			"method"=>"selectModuleByType", 
+			"type"=>"news",
+			"from"=>0,
+			"num"=>Config::LEFTSIDE_NEWS_NUM
+		));
+
 		/* HEDARE */
 		$header = $this->model('_header');
 		$header->public = Config::PUBLIC_FOLDER; 
@@ -73,57 +79,50 @@ class News extends Controller
 		$footer->data["usefulllinks"] = $db_usefulllinks->getter();
 		$footer->data["socialnetworks"] = $db_socialnetworks->getter();
 
-		if(!isset($newsId) || !is_numeric($newsId)){
+		/* Leftside news */
+		$news = $this->model('_homenews');
+		$news->data = $db_news->getter();
+
+		if(!isset($vacanciesId) || !is_numeric($vacanciesId)){
 			$header->pagedata = $db_pagedata; 
 			
-			$fromnews = (isset($_GET['pn']) && is_numeric($_GET['pn']) && $_GET['pn']>0) ? ($_GET['pn']-1) : 0;
-			// echo $fromnews." ".Config::NEWS_PER_PAGE;
-			$where = "";
-			$jsonAddon = "";
-			if(
-				isset($_GET['m']) && 
-				isset($_GET['y']) && 
-				is_numeric($_GET['m']) && 
-				is_numeric($_GET['y'])
-			){
-				$where = " AND MONTH(`date_format`)={$_GET['m']} AND YEAR(`date_format`)={$_GET['y']}";
-				$jsonAddon = $_GET['y'].$_GET['m'];
-			}
-			$db_news = new Database("modules", array(
+			$fromvacancies = (isset($_GET['pn']) && is_numeric($_GET['pn']) && $_GET['pn']>0) ? ($_GET['pn']-1) : 0;
+			
+			$db_vacancies = new Database("modules", array(
 				"method"=>"selectModuleByType", 
-				"type"=>"news",
-				"from"=>$fromnews,
-				"num"=>Config::NEWS_PER_PAGE,
-				"where"=>$where,
-				"jsonAddon"=>$jsonAddon
+				"type"=>"vacancies",
+				"from"=>$fromvacancies,
+				"num"=>Config::VACANCIES_PER_PAGE
 			));
 
-			/* News */
-			$news = $this->model('_news');
-			$news->data = $db_news->getter();
+			/* vacancies */
+			$vacancies = $this->model('_vacancies');
+			$vacancies->data = $db_vacancies->getter();
 
 			/* view */
-			$this->view('news/index', [
+			$this->view('vacancies/index', [
 				"header"=>array(
 					"website"=>Config::WEBSITE,
 					"public"=>Config::PUBLIC_FOLDER
 				),
 				"headerModule"=>$header->index(), 
 				"pageData"=>$db_pagedata->getter(), 
-				"news"=>$news->index(), 
-				"headertop"=>$headertop->index(), 
+				"vacancies"=>$vacancies->index(), 
+				"vacanciesId"=>$vacanciesId,
+				"headertop"=>$headertop->index(),
+				"news"=>$news->index(),
 				"footer"=>$footer->index() 
 			]);
 		}else{
-			$db_news = new Database("modules", array(
+			$db_vacancies = new Database("modules", array(
 				"method"=>"selectById", 
 				"lang"=>$_SESSION['LANG'],  
-				"idx"=>$newsId 
+				"idx"=>$vacanciesId
 			));
 			$header->pagedata = $db_news; 
 			
 			/* view */
-			$this->view('news/index', [
+			$this->view('vacancies/index', [
 				"header"=>array(
 					"website"=>Config::WEBSITE,
 					"public"=>Config::PUBLIC_FOLDER
@@ -131,8 +130,9 @@ class News extends Controller
 				"headerModule"=>$header->index(), 
 				"pageData"=>$db_pagedata->getter(), 
 				"headertop"=>$headertop->index(), 
-				"newsId"=>$newsId,
-				"news_inside"=>$db_news->getter(),
+				"vacanciesId"=>$vacanciesId,
+				"vacancies_inside"=>$db_vacancies->getter(),
+				"news"=>$news->index(),
 				"footer"=>$footer->index() 
 			]);
 		}

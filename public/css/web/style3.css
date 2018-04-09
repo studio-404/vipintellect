@@ -3623,6 +3623,25 @@ label.error:before {
   display: block;
 }
 
+table{
+  width: 100% !important;
+}
+
+table tr:first-child td{
+  border-color: #ff0000 !important;
+  color: #252525 !important;
+  font-size: 14px !important;
+  font-weight: normal !important;
+  border-bottom: 2px solid #ddd;
+}
+
+table tr td{
+  padding: 8px;
+}
+table tr td a{
+  color: #000000 !important;
+}
+
 @media (min-width: 992px) and (max-width: 1199px) {
   .navigation-wrapper .primary-navigation-wrapper {
     padding: 15px 0px;
