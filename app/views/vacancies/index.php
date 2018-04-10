@@ -2,6 +2,7 @@
 require_once("app/functions/l.php"); 
 require_once("app/functions/strip_output.php");
 require_once("app/functions/pagination.php");
+require_once("app/functions/breadcrups.php");
 $l = new functions\l();
 $pagination = new functions\pagination();
 echo $data['headerModule']; 
@@ -9,10 +10,10 @@ echo $data['headertop'];
 ?>
 
 <div class="container">
-    <ol class="breadcrumb glakho">
-            <li><a href="#">მთავარი</a></li>
-            <li class="active">ვაკანსიები</li>
-        </ol>
+    <?php 
+    $breadcrups = new functions\breadcrups();
+    echo $breadcrups->index();
+    ?>
 
     <!-- Page Content -->
     <div id="page-content" style="display: block;">

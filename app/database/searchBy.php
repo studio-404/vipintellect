@@ -60,13 +60,11 @@ class searchBy
 			`usefull`.`status`!=:one AND 
 			(
 				`usefull`.`type`='news' OR 
-				`usefull`.`type`='event' OR 
-				`usefull`.`type`='internationalsupport' OR 
-				`usefull`.`type`='chapters' OR 
-				`usefull`.`type`='implementation' OR 
-				`usefull`.`type`='strategic' OR 
-				`usefull`.`type`='legislation' OR 
-				`usefull`.`type`='adopedlegislation' 
+				`usefull`.`type`='ongoing' OR 
+				`usefull`.`type`='finished' OR 
+				`usefull`.`type`='future' OR 
+				`usefull`.`type`='vacancies'
+				
 			) ORDER BY `usefull`.`title` ASC
 		)
 		";

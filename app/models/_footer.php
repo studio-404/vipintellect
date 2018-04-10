@@ -7,8 +7,19 @@ class _footer
 	{
 		require_once("app/functions/l.php");
 		require_once("app/functions/strip_output.php");  
-		require_once("app/functions/string.php");  
-		$l = new functions\l(); 		
+		require_once("app/functions/string.php");
+		require_once("app/functions/request.php"); 
+
+		$l = new functions\l(); 	
+		$word = "";
+		if(functions\request::index("GET","w")){
+			$word = strip_tags(functions\request::index("GET","w"));
+			$word = str_replace(
+				array("-", "%20", "'", '"'),
+				array(" ", " ", "", ""),
+				$word
+			); 
+		};	
 
 		$out = "";
 		
@@ -33,9 +44,13 @@ class _footer
 
 		$out .= "<div class=\"search pull-right\">\n";
 		$out .= "<div class=\"input-group\">\n";
-		$out .= "<input type=\"text\" class=\"form-control glakho\" placeholder=\"ძიება\" />\n";
+		$out .= sprintf(
+			"<input type=\"text\" class=\"form-control glakho\" id=\"bottom_search\" placeholder=\"%s\" value=\"%s\" />\n",
+			$l->translate("search"),
+			htmlentities($word)
+		);
 		$out .= "<span class=\"input-group-btn\">\n";
-		$out .= "<button type=\"submit\" class=\"btn\"><i class=\"fa fa-search\"></i></button>\n";
+		$out .= "<button type=\"submit\" class=\"btn bottom_search_button\"><i class=\"fa fa-search\"></i></button>\n";
 		$out .= "</span>\n";
 		$out .= "</div>\n";
 		$out .= "</div>\n";

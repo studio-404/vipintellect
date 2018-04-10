@@ -29,7 +29,7 @@ class App{
 
 		$pluginUrl = str_replace("-", "", $url[1]);
 
-
+		// echo $pluginUrl;
 		if(file_exists('app/controllers/'. $pluginUrl.'.php')){
 			$this->controller = $pluginUrl;
 			unset($url[1]);
@@ -51,6 +51,7 @@ class App{
 						break;
 					case "news":
 						$this->controller = "news";
+						unset($url[1]);
 						break;
 					case "readnews":
 						$this->controller = "read";
@@ -62,7 +63,7 @@ class App{
 		}
 
 
-
+		// echo 'app/controllers/'.$this->controller.'.php';
 		require_once 'app/controllers/'.$this->controller.'.php';
 
 		$this->controller = new $this->controller;

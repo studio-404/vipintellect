@@ -119,7 +119,7 @@ class Vacancies extends Controller
 				"lang"=>$_SESSION['LANG'],  
 				"idx"=>$vacanciesId
 			));
-			$header->pagedata = $db_news; 
+			$header->pagedata = $db_vacancies; 
 			
 			/* view */
 			$this->view('vacancies/index', [

@@ -3,6 +3,7 @@ require_once("app/functions/l.php");
 require_once("app/functions/strip_output.php");
 require_once("app/functions/pagination.php");
 require_once("app/functions/archive.php");
+require_once("app/functions/breadcrups.php");
 $l = new functions\l();
 $pagination = new functions\pagination();
 $archive = new functions\archive();
@@ -11,10 +12,10 @@ echo $data['headertop'];
 ?>
 
 <div class="container">
-    <ol class="breadcrumb glakho">
-            <li><a href="#">მთავარი</a></li>
-            <li class="active">სიახლეები</li>
-        </ol>
+    <?php 
+    $breadcrups = new functions\breadcrups();
+    echo $breadcrups->index();
+    ?>
 
     <!-- Page Content -->
     <div id="page-content" style="display: block;">
@@ -69,7 +70,14 @@ echo $data['headertop'];
 								);
 							}
 
-                           echo strip_tags($data['news_inside']['description'], "<p><a><ul><li><br>");
+                           echo preg_replace_callback(
+                                "/\[https\:\/\/\w+\.youtube\.com\/watch\?v=(\w+|\w+-\w+)\]/",
+                                function($metches){
+                                    $iframe = "<iframe width=\"100%\" height=\"415\" src=\"https://www.youtube.com/embed/".$metches[1]."\" frameborder=\"0\" allow=\"autoplay; encrypted-media\" allowfullscreen></iframe>";
+                                    return $iframe;
+                                },
+                                strip_tags($data['news_inside']['description'], "<p><a><ul><li><br><table><tr><td><strong>")
+                            );
                            ?>
                         </section><!-- /.blog-listing -->
                     </div><!-- /#page-main -->

@@ -6,24 +6,35 @@ class Search extends Controller
 
 	}
 
-	public function index($lang, $keyword = "")
+	public function index($lang)
 	{
-		$keyword = strip_tags($keyword);
-		$search = str_replace(
-			"-",
-			" ",
-			$keyword
-		); 
+		require_once("app/functions/request.php");
+		$word = "";
+		if(functions\request::index("GET","w")){
+			$word = strip_tags(functions\request::index("GET","w"));
+			$word = str_replace(
+				array("-", "%20", "'", '"'),
+				array(" ", " ", "", ""),
+				$word
+			); 
+		}
+
+		$db_search = new Database("searchBy", array(
+			"method"=>"select", 
+			"word"=>$word,
+			"lang"=>$_SESSION['LANG']
+		));
 
 		/* DATABASE */
 		$db_langs = new Database("language", array(
 			"method"=>"select"
 		));
-		
-		$db_socials = new Database("modules", array(
+
+		$db_contactdetails = new Database("modules", array(
 			"method"=>"selectModuleByType", 
-			"type"=>"social"
+			"type"=>"contactdetails"
 		));
+	
 
 		$db_navigation = new Database("page", array(
 			"method"=>"select", 
@@ -33,6 +44,11 @@ class Search extends Controller
 			"status"=>0 
 		));
 
+		$db_usefulllinks = new Database("modules", array(
+			"method"=>"selectModuleByType", 
+			"type"=>"usefulllinks"
+		));
+
 		$s = (isset($_SESSION["URL"][1])) ? $_SESSION["URL"][1] : Config::MAIN_CLASS;
 		$db_pagedata = new Database("page", array(
 			"method"=>"selecteBySlug", 
@@ -40,31 +56,23 @@ class Search extends Controller
 			"lang"=>$_SESSION['LANG'], 
 			"all"=>true
 		));
-		$db_search = new Database("searchBy", array(
-			"method"=>"select", 
-			"word"=>$search,
-			"lang"=>$_SESSION['LANG']
+
+		$db_socialnetworks = new Database("modules", array(
+			"method"=>"selectModuleByType", 
+			"type"=>"socialnetworks"
 		));
-		$db_footer = new Database("modules", array(
-			"method"=>"selectById", 
-			"idx"=>18,
+		
+		$db_footerHelpNav = new Database("page", array(
+			"method"=>"selecteByCid", 
+			"cid"=>7, 
 			"lang"=>$_SESSION['LANG']
 		));
 
-		
 		/* HEDARE */
 		$header = $this->model('_header');
 		$header->public = Config::PUBLIC_FOLDER; 
-		$header->lang = $_SESSION["LANG"]; 
-		$header->pagedata = $db_pagedata; 
-		
-		/* SOCIAL */
-		$social = $this->model('_social');
-		$social->networks = $db_socials->getter(); 
-
-		/* LANGUAGES */
-		$languages = $this->model('_lang'); 
-		$languages->langs = $db_langs->getter();
+		$header->lang = $_SESSION["LANG"]; 	
+		$header->pagedata = $db_pagedata; 	
 
 		/* NAVIGATION */
 		$navigation = $this->model('_navigation');
@@ -72,14 +80,27 @@ class Search extends Controller
 
 		/* header top */
 		$headertop = $this->model('_top');
-		$headertop->data["socialNetworksModule"] = $social->index();
-		$headertop->data["languagesModule"] = $languages->index();
+		$headertop->data["contactdetails"] = $db_contactdetails->getter();
 		$headertop->data["navigationModule"] = $navigation->index();
-		$headertop->data["searchText"] = $search;
 
 		/*footer */
 		$footer = $this->model('_footer');
-		$footer->data = $db_footer->getter(); 
+		$footer->data["contactdetails"] = $db_contactdetails->getter();
+		$footer->data["footerHelpNav"] = $db_footerHelpNav->getter();
+		$footer->data["usefulllinks"] = $db_usefulllinks->getter();
+		$footer->data["socialnetworks"] = $db_socialnetworks->getter();
+
+		$pageDatax = $db_pagedata->getter();
+		
+		$db_dub_navigation = new Database("page", array(
+			"method"=>"select", 
+			"cid"=>$pageDatax['idx'], 
+			"nav_type"=>0,
+			"lang"=>$_SESSION['LANG'],
+			"status"=>0 
+		));
+
+		
 	
 		/* view */
 		$this->view('search/index', [
@@ -88,10 +109,11 @@ class Search extends Controller
 				"public"=>Config::PUBLIC_FOLDER
 			),
 			"headerModule"=>$header->index(), 
-			"pageData"=>$db_pagedata->getter(), 
-			"searchText"=>$search, 
-			"searchResults"=>$db_search, 
+			"pageData"=>$pageDatax, 
 			"headertop"=>$headertop->index(), 
+			"sub_navigation"=>$db_dub_navigation->getter(), 
+			"word"=>$word, 
+			"search"=>$db_search->getter(), 
 			"footer"=>$footer->index() 
 		]);
 	}

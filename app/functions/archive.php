@@ -52,8 +52,9 @@ class archive{
 				$active = ' style="color: #ff0000;"';
 			}
 			$out .= sprintf(
-				"<li><a href=\"%s/news?m=%d&y=%d\"%s>%s %s</a></li>", 
+				"<li><a href=\"%s/%s?m=%d&y=%d\"%s>%s %s</a></li>", 
 				\Config::WEBSITE.$_SESSION["LANG"],
+				$_SESSION["URL"][1],
 				($i+1),
 				$y,
 				$active, 

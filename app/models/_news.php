@@ -76,9 +76,10 @@ class _news
 				$out .= "</figure>";
 				$out .= "<div class=\"image-wrapper\">";
 				$out .= sprintf(
-					"<a href=\"%s%s/news/%s/%s\"><img src=\"%s\"></a>", 
+					"<a href=\"%s%s/%s/%s/%s\"><img src=\"%s\"></a>", 
 					Config::WEBSITE,
 					strip_output::index($_SESSION['LANG']),
+					$value["type"],
 					(int)$value['idx'],
 					strip_output::index($titleUrl), 
 					$image
@@ -88,9 +89,10 @@ class _news
 				$out .= "<aside>";
 				$out .= "<header>";
 				$out .= sprintf(
-					"<a href=\"%s%s/news/%s/%s\"><h3>%s</h3></a>", 
+					"<a href=\"%s%s/%s/%s/%s\"><h3>%s</h3></a>", 
 					Config::WEBSITE,
 					strip_output::index($_SESSION['LANG']),
+					$value["type"],
 					(int)$value['idx'],
 					strip_output::index($titleUrl), 
 					$sting->cut($title, 70)
@@ -103,9 +105,10 @@ class _news
 				);
 				$out .= "</div>";
 				$out .= sprintf(
-					"<a href=\"%s%s/news/%s/%s\" class=\"read-more stick-to-bottom\">გაიგე მეტი</a>",
+					"<a href=\"%s%s/%s/%s/%s\" class=\"read-more stick-to-bottom\">გაიგე მეტი</a>",
 					Config::WEBSITE,
 					strip_output::index($_SESSION['LANG']),
+					$value["type"],
 					(int)$value['idx'],
 					strip_output::index($titleUrl)
 				);

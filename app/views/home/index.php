@@ -142,7 +142,7 @@ echo $data['headertop'];
               <div class="col-md-4 col-sm-6">
                   <section class="events small" id="events-small">
                       <header>
-                          <h2 class="ninoMtavruli">ვაკანსიები</h2>
+                          <h2 class="ninoMtavruli"><?=$l->translate("vacancies")?></h2>
                       </header>
                       <div class="section-content glakho">
                           <?=$data['vacancies']?>
@@ -154,15 +154,7 @@ echo $data['headertop'];
               </div><!-- /.col-md-4 -->
               <div class="col-md-4 col-sm-12">
                   <section id="about">
-                      <header>
-                          <h2 class="ninoMtavruli">კომპანიის შესახებ</h2>
-                      </header>
-                      <div class="section-content glakho">
-                          <img src="assets/img/students.jpg" alt="" class="add-margin">
-                          <p>კავკასიის უნივერსიტეტის ისტორია იწყება 1998 წლიდან, კავკასიის ბიზნესის სკოლის შექმნით. მისი დევიზია: "Studium Pretium Libertatis" - ,,ცოდნა თავისუფლების საწინდარია”.</p>
-                          <p>კავკასიის უნივერსიტეტი სტუდენტებს სთავაზობს მაღალი დონის განათლებას, საერთაშორისო პროგრამებს, პრაქტიკაზე ორიენტირებულ სწავლებას.</p>
-                          <a href="" class="read-more" style="font-size: 12px;"><?=$l->translate("more")?></a>
-                      </div><!-- /.section-content -->
+                      FACEBOOK LIKE PLUGIN
                   </section><!-- /.about -->
               </div><!-- /.col-md-4 -->
           </div><!-- /.row -->
@@ -177,7 +169,7 @@ echo $data['headertop'];
               <div class="col-md-4 col-sm-4">
                   <section id="our-professors">
                       <header>
-                          <h2 class="ninoMtavruli">ჩვენი გუნდი</h2>
+                          <h2 class="ninoMtavruli"><?=$l->translate("ourteam")?></h2>
                       </header>
                       <div class="section-content">
                           <div class="professors">
@@ -192,11 +184,11 @@ echo $data['headertop'];
               <div class="col-md-8 col-sm-8">
                   <section id="gallery">
                       <header>
-                          <h2 class="ninoMtavruli">გალერეა</h2>
+                          <h2 class="ninoMtavruli"><?=$l->translate("gallery")?></h2>
                       </header>
                       <div class="section-content">
                           <?=$data["gallery"]?>
-                          <a href="/<?=$_SESSION["LANG"]?>/gallery" class="read-more glakho" style="font-size: 12px;">ნახე მეტი</a>
+                          <a href="/<?=$_SESSION["LANG"]?>/gallery" class="read-more glakho" style="font-size: 12px;"><?=$l->translate("more")?></a>
                       </div><!-- /.section-content -->
                   </section><!-- /.gallery -->
               </div><!-- /.col-md-4 -->
@@ -216,13 +208,35 @@ echo $data['headertop'];
                           <h2 class="ninoMtavruli">პარტნიორები &amp; დონორები</h2>
                       </header>
                       <div class="section-content">
-                          <div class="logos">                        
+                          <div class="logos">  
+                            <?php 
+                              foreach($data["partners"] as $item): 
+                                $photos = new Database("photos",array(
+                                  "method"=>"selectByParent", 
+                                  "idx"=>(int)$item['idx'],  
+                                  "lang"=>strip_output::index($item['lang']),  
+                                  "type"=>strip_output::index($item['type'])
+                                ));
+                                if($photos->getter()){
+                                  $pic = $photos->getter();
+                                  $image = sprintf(
+                                    "%s%s/image/loadimage?f=%s%s&w=111&h=35",
+                                    Config::WEBSITE,
+                                    strip_output::index($_SESSION['LANG']),
+                                    Config::WEBSITE_,
+                                    strip_output::index($pic[0]['path'])
+                                  );
+                                }else{
+                                  $image = "/public/filemanager/noimage.png";
+                                }
+                            ?>                      
                               <div class="logo">
-                                <a href="">
-                                  <img src="<?=Config::WEBSITE?>/public/img/logo-partner-01.png" alt="">
+                                <a href="<?=$item['url']?>" target="_blank">
+                                  <img src="<?=$image?>" alt="" />
                                 </a>
                               </div>
-                              <div class="logo">
+                            <?php endforeach; ?>
+                              <!-- <div class="logo">
                                   <a href="">
                                     <img src="<?=Config::WEBSITE?>/public/img/logo-partner-02.png" alt="">
                                   </a>
@@ -241,7 +255,7 @@ echo $data['headertop'];
                                 <a href="">
                                   <img src="<?=Config::WEBSITE?>/public/img/logo-partner-05.png" alt="">
                                 </a>
-                              </div> 
+                              </div>  -->
                           </div>
                       </div>
                   </section>

@@ -8,6 +8,17 @@ class _top
 		require_once("app/functions/l.php"); 
 		require_once("app/functions/strip_output.php"); 
 		require_once("app/functions/language_output_name.php"); 
+		require_once("app/functions/request.php"); 
+
+		$word = "";
+		if(functions\request::index("GET","w")){
+			$word = strip_tags(functions\request::index("GET","w"));
+			$word = str_replace(
+				array("-", "%20", "'", '"'),
+				array(" ", " ", "", ""),
+				$word
+			); 
+		}
 
 		$language_output_name = new functions\language_output_name();
 		$outputName = $language_output_name->index();
@@ -45,7 +56,8 @@ class _top
 		$out .= "<div class=\"search\">\n";
 		$out .= "<div class=\"input-group\">\n";
 		$out .= sprintf(
-			"<input type=\"search\" class=\"form-control glakho\" name=\"search\" placeholder=\"%s\">\n",
+			"<input type=\"search\" class=\"form-control glakho\" name=\"search\" id=\"topsearch\" value=\"%s\" placeholder=\"%s\">\n",
+			htmlentities($word), 
 			$l->translate("search")
 		);
 		$out .= "<span class=\"input-group-btn\">\n";
@@ -56,6 +68,10 @@ class _top
 		$out .= "</div><!-- /.input-group -->\n";
 		$out .= "</div>\n";
 
+		$out .= sprintf(
+			"<input type=\"hidden\" name=\"input_lang\" id=\"input_lang\" value=\"%s\" />\n",
+			$_SESSION["LANG"]
+		);
 		$out .= "<ul class=\"secondary-navigation list-unstyled glakho\">\n";
 		$out .= sprintf(
 			"<li><a href=\"%s\"%s>ქართული</a></li>\n",

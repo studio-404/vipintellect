@@ -1,7 +1,7 @@
 <?php 
 class News extends Controller
 {
-	
+	public $newsslug;
 	public function __construct()
 	{
 		
@@ -9,6 +9,7 @@ class News extends Controller
 
 	public function index($lang = '', $newsId = '')
 	{
+		$this->newsslug = $_SESSION["URL"][1];
 		/* DATABASE */
 		$db_langs = new Database("language", array(
 			"method"=>"select"
@@ -72,7 +73,7 @@ class News extends Controller
 		$footer->data["footerHelpNav"] = $db_footerHelpNav->getter();
 		$footer->data["usefulllinks"] = $db_usefulllinks->getter();
 		$footer->data["socialnetworks"] = $db_socialnetworks->getter();
-
+		// echo $newsId;
 		if(!isset($newsId) || !is_numeric($newsId)){
 			$header->pagedata = $db_pagedata; 
 			
@@ -89,9 +90,10 @@ class News extends Controller
 				$where = " AND MONTH(`date_format`)={$_GET['m']} AND YEAR(`date_format`)={$_GET['y']}";
 				$jsonAddon = $_GET['y'].$_GET['m'];
 			}
+
 			$db_news = new Database("modules", array(
 				"method"=>"selectModuleByType", 
-				"type"=>"news",
+				"type"=>$this->newsslug,
 				"from"=>$fromnews,
 				"num"=>Config::NEWS_PER_PAGE,
 				"where"=>$where,

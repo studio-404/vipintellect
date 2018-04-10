@@ -260,6 +260,18 @@ $(document).ready(function($) {
 });
 
 
+$(document).on("click", "#search-submit", function(){
+    var val = $("#topsearch").val();
+    var input_lang = $("#input_lang").val();
+    location.href = "/"+input_lang+"/search/?w="+val;
+});
+
+$(document).on("click", ".bottom_search_button", function(){
+    var val = $("#bottom_search").val();
+    var input_lang = $("#input_lang").val();
+    location.href = "/"+input_lang+"/search/?w="+val;
+});
+
 // Remove button function for "join to course" button after count down is over
 
 function disableJoin() {

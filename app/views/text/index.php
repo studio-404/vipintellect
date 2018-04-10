@@ -1,17 +1,17 @@
 <?php
 require_once("app/functions/l.php"); 
 require_once("app/functions/strip_output.php");
+require_once("app/functions/breadcrups.php");
 $l = new functions\l();
 echo $data['headerModule']; 
 echo $data['headertop']; 
 ?>
 
 <div class="container">
-    <ol class="breadcrumb glakho">
-            <li><a href="#">მთავარი</a></li>
-            <li class="active">ჩვენს შესახებ</li>
-        </ol>
-
+    <?php 
+    $breadcrups = new functions\breadcrups();
+    echo $breadcrups->index();
+    ?>
     <!-- Page Content -->
     <div id="page-content" style="display: block;">
         <div class="">
@@ -42,8 +42,16 @@ echo $data['headertop'];
 									$image,
 									"100%"
 								);
-							}
-							echo strip_tags($data['pageData']['text'], "<p><a><ul><li><br><table><tr><td><strong>");
+							}                            
+
+                            echo preg_replace_callback(
+                                "/\[https\:\/\/\w+\.youtube\.com\/watch\?v=(\w+|\w+-\w+)\]/",
+                                function($metches){
+                                    $iframe = "<iframe width=\"100%\" height=\"415\" src=\"https://www.youtube.com/embed/".$metches[1]."\" frameborder=\"0\" allow=\"autoplay; encrypted-media\" allowfullscreen></iframe>";
+                                    return $iframe;
+                                },
+                                strip_tags($data['pageData']['text'], "<p><a><ul><li><br><table><tr><td><strong>")
+                            );
                             
                             if(count($data["sub_navigation"])):
                             ?>

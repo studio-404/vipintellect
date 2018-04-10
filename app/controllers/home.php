@@ -89,6 +89,13 @@ class Home extends Controller
 			"num"=>Config::HOME_PAGE_STAFF_NUM
 		));
 
+		$db_partners = new Database("modules", array(
+			"method"=>"selectModuleByType", 
+			"type"=>"partners",
+			"from"=>0,
+			"num"=>Config::HOME_PAGE_PARTNERS_NUM
+		));
+
 		$db_gallery = new Database("modules", array(
 			"method"=>"selectModuleByType", 
 			"type"=>"gallery",
@@ -157,6 +164,7 @@ class Home extends Controller
 			"gallery"=>$gallery->index(), 
 			"vacancies"=>$vacancies->index(), 
 			"slider"=>$slider->index(), 
+			"partners"=>$db_partners->getter(), 
 			"footer"=>$footer->index() 
 		]);
 	}
