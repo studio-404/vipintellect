@@ -41,7 +41,6 @@
 						<th data-field="id">ს.კ</th>
 						<th data-field="date">თარღი</th>
 						<th data-field="name">სახელი</th>
-						<th data-field="org">ორგანიზაცია</th>
 						<th data-field="email">ელ-ფოსტა</th>
 						<th data-field="action">მოქმედება</th>
 					</tr>

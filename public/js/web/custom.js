@@ -1,3 +1,10 @@
+var Config = {
+    website: "http://trip.404.ge/",
+    ajax: "http://trip.404.ge/ge/ajax/index",
+    mainLang: "ge",
+    mainClass: "home"
+};
+
 var _days = 'Days';
 var _hours = 'Hours';
 var _minutes = 'Minutes';
@@ -168,45 +175,45 @@ $(document).ready(function($) {
 
 //  Slider Subscription Form
 
-    $("#slider-submit").bind("click", function(event){
-        $("#slider-form").validate({
-            submitHandler: function() {
-                $.post("slider-form.php", $("#slider-form").serialize(),  function(response) {
-                    $('#form-status').html(response);
-                    $('#submit').attr('disabled','true');
-                });
-                return false;
-            }
-        });
-    });
+    // $("#slider-submit").bind("click", function(event){
+    //     $("#slider-form").validate({
+    //         submitHandler: function() {
+    //             $.post("slider-form.php", $("#slider-form").serialize(),  function(response) {
+    //                 $('#form-status').html(response);
+    //                 $('#submit').attr('disabled','true');
+    //             });
+    //             return false;
+    //         }
+    //     });
+    // });
 
 //  Contact Form with validation
 
-    $("#submit").bind("click", function(event){
-        $("#contactform").validate({
-            submitHandler: function() {
-                $.post("contact.php", $("#contactform").serialize(),  function(response) {
-                    $('#form-status').html(response);
-                    $('#submit').attr('disabled','true');
-                });
-                return false;
-            }
-        });
-    });
+    // $("#submit").bind("click", function(event){
+    //     $("#contactform").validate({
+    //         submitHandler: function() {
+    //             $.post("contact.php", $("#contactform").serialize(),  function(response) {
+    //                 $('#form-status').html(response);
+    //                 $('#submit').attr('disabled','true');
+    //             });
+    //             return false;
+    //         }
+    //     });
+    // });
 
 //  Landing Page Form
 
-    $("#landing-page-submit").bind("click", function(event){
-        $("#form-landing-page").validate({
-            submitHandler: function() {
-                $.post("landing-page-form.php", $("#form-landing-page").serialize(),  function(response) {
-                    $('#form-status').html(response);
-                    $('#submit').attr('disabled','true');
-                });
-                return false;
-            }
-        });
-    });
+    // $("#landing-page-submit").bind("click", function(event){
+    //     $("#form-landing-page").validate({
+    //         submitHandler: function() {
+    //             $.post("landing-page-form.php", $("#form-landing-page").serialize(),  function(response) {
+    //                 $('#form-status').html(response);
+    //                 $('#submit').attr('disabled','true');
+    //             });
+    //             return false;
+    //         }
+    //     });
+    // });
 
 //  Vanilla Box
 
@@ -270,6 +277,34 @@ $(document).on("click", ".bottom_search_button", function(){
     var val = $("#bottom_search").val();
     var input_lang = $("#input_lang").val();
     location.href = "/"+input_lang+"/search/?w="+val;
+});
+
+
+$(document).on("click", "#submit", function(){
+    var firstname = $("#firstname").val();
+    var email = $("#email").val();
+    var massage = $("#massage").val();
+    var lang = $("#input_lang").val();
+    var ajaxFile = "/sendmessage";
+    $.ajax({
+        method: "POST",
+        url: Config.ajax + ajaxFile,
+        data: { firstname:firstname, email:email, massage:massage, lang:lang }
+    }).done(function( msg ) {
+        var obj = $.parseJSON(msg);
+        if(obj.Success.Code==1){
+            var text = obj.Success.Text;
+            $("#firstname").val("");
+            $("#email").val("");
+            $("#massage").val("");
+        }else{
+            var text = obj.Error.Text;
+        }
+
+        $(".contact-error-message").html(text);
+
+    });
+
 });
 
 // Remove button function for "join to course" button after count down is over

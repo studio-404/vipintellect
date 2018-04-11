@@ -63,13 +63,14 @@ $photo = (isset($data["pageData"]["photo"])) ? Config::WEBSITE_.$data["pageData"
 
                         <section id="contact-form" class="clearfix">
                             <header><h2 class="ninoMtavruli"><?=$l->translate("writeus")?></h2></header>
-                            <form class="contact-form glakho" id="contactform" method="post" action="">
+                            <p class="contact-error-message glakho"></p>
+                            <form class="contact-form glakho" id="contactform" method="post" action="?">
                                 <div class="row">
                                     <div class="col-md-6" style="min-height: 72px;">
                                         <div class="input-group">
                                             <div class="controls">
-                                                <label for="name"><?=$l->translate("namelname")?></label>
-                                                <input type="text" name="name" id="name" required="">
+                                                <label for="firstname"><?=$l->translate("namelname")?></label>
+                                                <input type="text" name="firstname" id="firstname" required="">
                                             </div><!-- /.controls -->
                                         </div><!-- /.control-group -->
                                     </div><!-- /.col-md-4 -->
@@ -86,14 +87,14 @@ $photo = (isset($data["pageData"]["photo"])) ? Config::WEBSITE_.$data["pageData"
                                     <div class="col-md-12" style="min-height: 158px;">
                                         <div class="input-group">
                                             <div class="controls">
-                                                <label for="message"><?=$l->translate("message")?></label>
-                                                <textarea name="message" id="message" required=""></textarea>
+                                                <label for="massage"><?=$l->translate("message")?></label>
+                                                <textarea name="massage" id="massage" required=""></textarea>
                                             </div><!-- /.controls -->
                                         </div><!-- /.control-group -->
                                     </div><!-- /.col-md-4 -->
                                 </div><!-- /.row -->
                                 <div class="pull-right">
-                                    <input type="submit" class="btn btn-color-primary" id="submit" value="<?=$l->translate("send")?>" style="background-color: #000000" />
+                                    <input type="button" class="btn btn-color-primary" id="submit" value="<?=$l->translate("send")?>" style="background-color: #000000" />
                                 </div><!-- /.form-actions -->
                                 <div id="form-status"></div>
                             </form><!-- /.footer-form -->

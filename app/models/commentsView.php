@@ -15,7 +15,6 @@ class commentsView
 						<td>%s</td>
 						<td>%s</td>
 						<td>%s</td>
-						<td>%s</td>
 						<td>
 							<a href=\"javascript:void(0)\" onclick=\"searchComments('%s')\"><i class=\"material-icons tooltipped\" data-position=\"bottom\" data-delay=\"50\" data-tooltip=\"სრულად ნახვა\">pageview</i></a>
 
@@ -26,7 +25,6 @@ class commentsView
 					(int)$val['id'],
 					date("d/m/Y g:i:s", (int)$val['date']), 
 					strip_output::index($val['firstname']),
-					strip_output::index($val['organization']),
 					strip_output::index($val['email']),
 					(int)$val['id'], 
 					(int)$val['id']

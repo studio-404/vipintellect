@@ -20,14 +20,7 @@ echo $data['headertop'];
         <!--MAIN Content-->
         <div id="page-main">
             <section id="right-sidebar">
-                <header><h2 class="ninoMtavruli"><?=$data['pageData']['title']?> :: <?=$data["word"]?></h2></header>
-
-                <?php 
-                // echo "<pre>";
-                // print_r($data["search"]);
-                // echo "</pre>";
-                ?>
-                
+                <header><h2 class="ninoMtavruli"><?=$data['pageData']['title']?> :: <?=$data["word"]?></h2></header>                
 
                 <ul class="list-links glakho">
                 	<?php 

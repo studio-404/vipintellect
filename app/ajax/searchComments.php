@@ -69,14 +69,14 @@ class searchComments
 					$val['firstname']
 				);
 
-				$table .= sprintf("
-					<tr>
-					<td><strong>%s</strong></td>
-					<td>%s</td>
-					</tr>",
-					'ორგანიზაცია: ',
-					$val['organization']
-				);
+				// $table .= sprintf("
+				// 	<tr>
+				// 	<td><strong>%s</strong></td>
+				// 	<td>%s</td>
+				// 	</tr>",
+				// 	'ორგანიზაცია: ',
+				// 	$val['organization']
+				// );
 				
 				$table .= sprintf("
 					<tr>
@@ -96,22 +96,22 @@ class searchComments
 					$val['comment']
 				);
 
-				$file = new Database("file", array(
-					"method"=>"selectFilesPathById",  
-					"idx"=>$val['commentId'],  
-					"type"=>"module",
-					"lang"=>$val['lang'] 
-				));
-				$get = $file->getter(); 
-				$link = Config::PUBLIC_FOLDER.$get; 
-				$table .= sprintf("
-					<tr>
-					<td><strong>%s</strong></td>
-					<td><a href=\"%s\" target=\"_blank\">ნახვა</a></td>
-					</tr>",
-					'ფაილი: ',
-					$link
-				);				
+				// $file = new Database("file", array(
+				// 	"method"=>"selectFilesPathById",  
+				// 	"idx"=>$val['commentId'],  
+				// 	"type"=>"module",
+				// 	"lang"=>$val['lang'] 
+				// ));
+				// $get = $file->getter(); 
+				// $link = Config::PUBLIC_FOLDER.$get; 
+				// $table .= sprintf("
+				// 	<tr>
+				// 	<td><strong>%s</strong></td>
+				// 	<td><a href=\"%s\" target=\"_blank\">ნახვა</a></td>
+				// 	</tr>",
+				// 	'ფაილი: ',
+				// 	$link
+				// );				
 			}
 		}else{
 			$table .= sprintf("
