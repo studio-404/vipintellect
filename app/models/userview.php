@@ -24,9 +24,9 @@ class userview
 					date("d/m/Y g:i:s", (int)$val['register_date']), 
 					strip_output::index($val['email']),
 					strip_output::index($val['firstname']),
-					strip_output::index($val['lastname']),
-					$val['email'], 
-					$val['email']
+					strip_output::index($val['training_title']),
+					$val['id'], 
+					$val['id']
 				);
 			}
 		endif;

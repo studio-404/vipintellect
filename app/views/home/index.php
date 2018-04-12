@@ -32,25 +32,12 @@ echo $data['headertop'];
                                       <div class="row">
                                           <div class="col-md-6">
                                               <div class="input-group">
-                                                  <input class="form-control has-dark-background glakho" name="slider-name" id="slider-name" placeholder="<?=$l->translate("namelname")?>" type="text" required>
+                                                  <input class="form-control has-dark-background glakho" name="firstname" id="firstname" placeholder="<?=$l->translate("namelname")?>" type="text" />
                                               </div>
                                           </div><!-- /.col-md-6 -->
                                           <div class="col-md-6">
                                               <div class="input-group">
-                                                  <input class="form-control has-dark-background glakho" name="slider-email" id="slider-email" placeholder="<?=$l->translate("contactnumber")?>" type="email" required>
-                                              </div>
-                                          </div><!-- /.col-md-6 -->
-                                      </div><!-- /.row -->
-
-                                      <div class="row">
-                                          <div class="col-md-6">
-                                              <div class="input-group">
-                                                  <input class="form-control has-dark-background glakho" name="slider-name" id="slider-name" placeholder="<?=$l->translate("email")?>" type="text" required>
-                                              </div>
-                                          </div><!-- /.col-md-6 -->
-                                          <div class="col-md-6">
-                                              <div class="input-group">
-                                                  <input class="form-control has-dark-background glakho" name="slider-email" id="slider-email" placeholder="<?=$l->translate("age")?>" type="email" required>
+                                                  <input class="form-control has-dark-background glakho" name="phone" id="phone" placeholder="<?=$l->translate("contactnumber")?>" type="text" />
                                               </div>
                                           </div><!-- /.col-md-6 -->
                                       </div><!-- /.row -->
@@ -58,15 +45,28 @@ echo $data['headertop'];
                                       <div class="row">
                                           <div class="col-md-6">
                                               <div class="input-group">
-                                                  <input class="form-control has-dark-background glakho" name="slider-name" id="slider-name" placeholder="<?=$l->translate("trainingstarttime")?>" type="text" required>
+                                                  <input class="form-control has-dark-background glakho" name="email" id="email" placeholder="<?=$l->translate("email")?>" type="text" />
                                               </div>
                                           </div><!-- /.col-md-6 -->
                                           <div class="col-md-6">
                                               <div class="input-group">
-                                                  <select name="slider-study-level" id="slider-study-level" class="has-dark-background glakho">
+                                                  <input class="form-control has-dark-background glakho" name="age" id="age" placeholder="<?=$l->translate("age")?>" type="text" />
+                                              </div>
+                                          </div><!-- /.col-md-6 -->
+                                      </div><!-- /.row -->
+
+                                      <div class="row">
+                                          <div class="col-md-6">
+                                              <div class="input-group">
+                                                  <input class="form-control has-dark-background glakho" name="starttime" id="starttime" placeholder="<?=$l->translate("trainingstarttime")?>" type="text" />
+                                              </div>
+                                          </div><!-- /.col-md-6 -->
+                                          <div class="col-md-6">
+                                              <div class="input-group">
+                                                  <select name="howfind" id="howfind" class="has-dark-background glakho">
                                                       <option value=""><?=$l->translate("howfindus")?></option>
                                                       <?php foreach($data["howfindus"] as $item):?>
-                                                      <option value="<?=$item['id']?>"><?=$item['title']?></option>
+                                                      <option value="<?=$item['idx']?>"><?=$item['title']?></option>
                                                       <?php endforeach; ?>
                                                   </select>
                                               </div><!-- /.form-group -->
@@ -83,7 +83,7 @@ echo $data['headertop'];
                                               
                                           </div><!-- /.col-md-6 -->
                                       </div><!-- /.row -->
-                                      <button type="submit" id="slider-submit" class="btn btn-framed pull-right glakho"><?=$l->translate("register")?></button>
+                                      <button type="submit" id="slider-submit" class="btn btn-framed pull-right glakho register-to-training"><?=$l->translate("register")?></button>
                                       <div id="form-status"></div>
                                   </form>
                               </div><!-- /.col-md-12 -->

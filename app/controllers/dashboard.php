@@ -163,7 +163,8 @@ class dashboard extends Controller
 		$itemPerPage = 10;
 		$user = new Database('user', array(
 			"method"=>"selectAll",
-			"itemPerPage"=>$itemPerPage
+			"itemPerPage"=>$itemPerPage,
+			"lang"=>$_SESSION["LANG"]
 		));
 
 		$getter = $user->getter();

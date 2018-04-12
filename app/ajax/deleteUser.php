@@ -24,10 +24,10 @@ class deleteUser
 			)
 		);
 
-		$email = functions\request::index("POST","email");
+		$id = functions\request::index("POST","id");
 		
 
-		if($email=="")
+		if($id=="")
 		{
 			$this->out = array(
 				"Error" => array(
@@ -39,7 +39,7 @@ class deleteUser
 		}else{
 			$Database = new Database('user', array(
 					'method'=>'removeUser', 
-					'email'=>$email
+					'id'=>$id
 			));
 			$output = $Database->getter();
 			if($output){

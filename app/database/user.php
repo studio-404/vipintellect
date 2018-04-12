@@ -15,10 +15,36 @@ class user
 	private function select($args)
 	{
 		$fetch = array();
-		$sql = 'SELECT * FROM `users_website` WHERE `email`=:email';
+		$sql = 'SELECT 
+		(
+			SELECT 
+			`navigation`.`title` 
+			FROM 
+			`navigation` 
+			WHERE 
+			`navigation`.`idx`=`users_website`.`trainingid` AND
+			`navigation`.`lang`=:lang AND 
+			`navigation`.`status`!=1		
+		) as training_title, 
+		(
+			SELECT 
+			`usefull`.`title` 
+			FROM 
+			`usefull` 
+			WHERE 
+			`usefull`.`idx`=`users_website`.`howfind` AND
+			`usefull`.`lang`=:lang AND 
+			`usefull`.`status`!=1		
+		) as howfind_title, 
+		`users_website`.* 
+		FROM 
+		`users_website` 
+		WHERE 
+		`id`=:id';
 		$prepare = $this->conn->prepare($sql);
 		$prepare->execute(array(
-			":email"=>$args["email"]
+			":id"=>$args["id"], 
+			":lang"=>$args["lang"] 
 		));
 		if($prepare->rowCount()){
 			$fetch = $prepare->fetch(PDO::FETCH_ASSOC);
@@ -28,10 +54,10 @@ class user
 
 	private function removeUser($args)
 	{
-		$sql = 'UPDATE `users_website` SET `status`=1 WHERE `email`=:email';
+		$sql = 'UPDATE `users_website` SET `status`=1 WHERE `id`=:id';
 		$prepare = $this->conn->prepare($sql);
 		$prepare->execute(array(
-			":email"=>$args["email"]
+			":id"=>$args["id"]
 		));
 		if($prepare->rowCount()){
 			return true;
@@ -45,9 +71,32 @@ class user
 		$itemPerPage = $args['itemPerPage'];
 		$from = (isset($_GET['pn']) && $_GET['pn']>0) ? (($_GET['pn']-1)*$itemPerPage) : 0;
 		
-		$select = "SELECT (SELECT COUNT(`id`) FROM `users_website` WHERE `status`!=1) as counted, `id`, `register_date`, `register_ip`, `email`, `firstname`, `lastname` FROM `users_website` WHERE `status`!=1 ORDER BY `register_date` DESC LIMIT ".$from.",".$itemPerPage;	
+		$select = "SELECT 
+		(SELECT COUNT(`id`) FROM `users_website` WHERE `status`!=1) as counted, 
+		`id`, 
+		`register_date`, 
+		`register_ip`, 
+		(
+			SELECT 
+			`navigation`.`title` 
+			FROM 
+			`navigation` 
+			WHERE 
+			`navigation`.`idx`=`users_website`.`trainingid` AND
+			`navigation`.`lang`=:lang AND 
+			`navigation`.`status`!=1		
+		) as training_title, 
+		`email`, 
+		`firstname` 
+		FROM 
+		`users_website` 
+		WHERE 
+		`status`!=1 
+		ORDER BY `register_date` DESC LIMIT ".$from.",".$itemPerPage;	
 		$prepare = $this->conn->prepare($select); 
-		$prepare->execute();
+		$prepare->execute(array(
+			":lang"=>$args["lang"]
+		));
 		if($prepare->rowCount()){
 			$fetch = $prepare->fetchAll(PDO::FETCH_ASSOC);
 		}
@@ -141,33 +190,25 @@ class user
 		$sql = 'INSERT INTO `users_website` SET 
 		`register_date`=:register_date, 
 		`register_ip`=:register_ip, 
-		`email`=:username, 
-		`password`=:password, 
 		`firstname`=:firstname, 
-		`lastname`=:lastname,
-		`dob`=:dob,
-		`gender`=:gender,
-		`country`=:country,
-		`city`=:city,
-		`phone`=:phone,
-		`email_random`=:email_random,
-		`postcode`=:postcode
+		`phone`=:phone, 
+		`email`=:email, 
+		`age`=:age,
+		`starttime`=:starttime,
+		`howfind`=:howfind,
+		`trainingid`=:trainingid
 		';
 		$prepare = $this->conn->prepare($sql);
 		$prepare->execute(array(
 			":register_date"=>time(), 
 			":register_ip"=>$server->ip(), 
-			":username"=>$args["username"], 
-			":password"=>sha1(md5($args["password"])), 
 			":firstname"=>$args["firstname"], 
-			":lastname"=>$args["lastname"], 
-			":dob"=>$args["dob"], 
-			":gender"=>$args["gender"], 
-			":country"=>$args["country"], 
-			":city"=>$args["city"], 
 			":phone"=>$args["phone"], 
-			":email_random"=>$args["email_random"], 
-			":postcode"=>$args["postcode"] 
+			":email"=>$args["email"], 
+			":age"=>$args["age"], 
+			":starttime"=>$args["starttime"], 
+			":howfind"=>$args["howfind"], 
+			":trainingid"=>$args["trainingid"]
 		));
 		if($prepare->rowCount()){
 			return true;

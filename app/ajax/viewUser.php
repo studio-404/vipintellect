@@ -24,11 +24,12 @@ class viewUser
 			)
 		);
 
-		$email = functions\request::index("POST","email");
+		$id = functions\request::index("POST","id");
 
 		$user = new Database('user', array(
 			'method'=>'select', 
-			'email'=>$email
+			'id'=>$id,
+			'lang'=>$_SESSION["LANG"]
 		));
 		$getter = $user->getter();
 
@@ -71,8 +72,8 @@ class viewUser
 				<td><strong>%s</strong></td>
 				<td>%s</td>
 				</tr>",
-				'ელ-ფოსტა: ',
-				$val['email']
+				'ტრენინგი: ',
+				$val['training_title']
 			);
 			
 			$table .= sprintf("
@@ -80,7 +81,16 @@ class viewUser
 				<td><strong>%s</strong></td>
 				<td>%s</td>
 				</tr>",
-				'სახელი: ',
+				'ელ-ფოსტა: ',
+				$val['email']
+			);
+
+			$table .= sprintf("
+				<tr>
+				<td><strong>%s</strong></td>
+				<td>%s</td>
+				</tr>",
+				'სახელი გვარი: ',
 				$val['firstname']
 			);
 
@@ -89,8 +99,8 @@ class viewUser
 				<td><strong>%s</strong></td>
 				<td>%s</td>
 				</tr>",
-				'გვარი: ',
-				$val['lastname']
+				'საკონტაქტო ნომერი: ',
+				$val['phone']
 			);
 
 			$table .= sprintf("
@@ -98,8 +108,8 @@ class viewUser
 				<td><strong>%s</strong></td>
 				<td>%s</td>
 				</tr>",
-				'დაბადების თარიღი: (დ/თ/წ)',
-				date("d/m/Y", (int)strtotime($val['dob']))
+				'ასაკი: ',
+				$val['age']
 			);
 
 			$table .= sprintf("
@@ -107,26 +117,8 @@ class viewUser
 				<td><strong>%s</strong></td>
 				<td>%s</td>
 				</tr>",
-				'სქესი: ',
-				($val['gender']==1) ? "მამრობითი" : "მდედრობითი" 
-			);
-
-			$table .= sprintf("
-				<tr>
-				<td><strong>%s</strong></td>
-				<td>%s</td>
-				</tr>",
-				'ქვეყანა: ',
-				$val['country']
-			);
-
-			$table .= sprintf("
-				<tr>
-				<td><strong>%s</strong></td>
-				<td>%s</td>
-				</tr>",
-				'ქალაქი: ',
-				$val['city']
+				'სწავლების სასურველი დრო: ',
+				$val['starttime']
 			);
 
 			$table .= sprintf("
@@ -143,8 +135,8 @@ class viewUser
 				<td><strong>%s</strong></td>
 				<td>%s</td>
 				</tr>",
-				'საფოსტო კოდი: ',
-				$val['postcode']
+				'როგორ შეიტყვეთ ჩვენ შესახებ: ',
+				$val['howfind_title']
 			);
 
 		}else{

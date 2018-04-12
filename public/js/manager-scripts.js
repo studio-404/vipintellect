@@ -1077,7 +1077,7 @@ var searchComments = function(id){
 };
 
 
-var viewUser = function(email){
+var viewUser = function(id){
 	var ajaxFile = "/viewUser";
 	var header = "<h4>განცხადება</h4><p class=\"modal-message-box\"></p>";
 	var content = "<p>გთხოვთ დაიცადოთ...</p>";
@@ -1090,7 +1090,7 @@ var viewUser = function(email){
 	$.ajax({
 		method: "POST",
 		url: Config.ajax + ajaxFile,
-		data: { email: email }
+		data: { id: id }
 	}).done(function( msg ) {
 		var obj = $.parseJSON(msg);
 		if(obj.Error.Code==1){
@@ -1141,9 +1141,9 @@ var askRemoveComments = function(id){
 	$('#modal1').openModal();	
 }; 
 
-var askDeleteUser = function(email){
+var askDeleteUser = function(id){
 	var header = "<h4>შეტყობინება</h4><p class=\"modal-message-box\">გნებავთ წაშალოთ მონაცემი ?</p>";
-	var footer = "<a href=\"javascript:void(0)\" onclick=\"deleteUser('"+email+"')\" class=\"waves-effect waves-green btn-flat\">დიახ</a>";
+	var footer = "<a href=\"javascript:void(0)\" onclick=\"deleteUser('"+id+"')\" class=\"waves-effect waves-green btn-flat\">დიახ</a>";
 	footer += "<a href=\"javascript:void(0)\" class=\"waves-effect waves-green btn-flat modal-close\">დახურვა</a>";
 
 	$("#modal1 .modal-content").html(header);
@@ -1174,15 +1174,15 @@ var removeComments = function(id){
 	}
 };
 
-var deleteUser = function(email){
+var deleteUser = function(id){
 	var ajaxFile = "/deleteUser";
-	if(typeof email == "undefined"){
+	if(typeof id == "undefined"){
 		$(".modal-message-box").html("E4");
 	}else{
 		$.ajax({
 			method: "POST",
 			url: Config.ajax + ajaxFile,
-			data: { email: email }
+			data: { id: id }
 		}).done(function( msg ) {
 			var obj = $.parseJSON(msg);
 			if(obj.Error.Code==1){

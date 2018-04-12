@@ -40,8 +40,8 @@
 					<tr>
 						<th data-field="date">რეგ. თარღი</th>
 						<th data-field="name">ელ-ფოსტა</th>
-						<th data-field="org">სახელი</th>
-						<th data-field="email">გვარი</th>
+						<th data-field="org">სახელი გვარი</th>
+						<th data-field="org">ტრენინგი</th>
 						<th data-field="action">მოქმედება</th>
 					</tr>
 				</thead>

@@ -29,31 +29,31 @@ echo $data['headertop'];
                                 <form role="form" class="clearfix glakho" action="">
                                     <div class="form-group">
                                         <label><?=$l->translate("namelname")?></label>
-                                        <input type="text" class="form-control" placeholder="<?=$l->translate("namelname")?>">
+                                        <input type="text" name="firstname" id="firstname" class="form-control" placeholder="<?=$l->translate("namelname")?>">
                                     </div>
                                     <div class="form-group">
                                         <label><?=$l->translate("contactnumber")?></label>
-                                        <input type="text" class="form-control" placeholder="<?=$l->translate("contactnumber")?>">
+                                        <input type="text" name="phone" id="phone" class="form-control" placeholder="<?=$l->translate("contactnumber")?>">
                                     </div>
                                     <div class="form-group">
                                         <label><?=$l->translate("email")?></label>
-                                        <input type="text" class="form-control" placeholder="<?=$l->translate("email")?>">
+                                        <input type="text" name="email" id="email" class="form-control" placeholder="<?=$l->translate("email")?>">
                                     </div>
 
                                     <div class="form-group">
                                         <label><?=$l->translate("age")?></label>
-                                        <input type="text" class="form-control" placeholder="<?=$l->translate("age")?>">
+                                        <input type="text" name="age" id="age" class="form-control" placeholder="<?=$l->translate("age")?>">
                                     </div>
                                     <div class="form-group">
                                         <label><?=$l->translate("trainingstarttime")?></label>
-                                        <input type="text" class="form-control" placeholder="<?=$l->translate("trainingstarttime")?>">
+                                        <input type="text" name="starttime" id="starttime" class="form-control" placeholder="<?=$l->translate("trainingstarttime")?>">
                                     </div>
                                     <div class="form-group">
-                                        <label for="new-account-repeat-password"><?=$l->translate("howfindus")?></label>
-                                        <select name="slider-study-level" class="has-dark-background glakho">
+                                        <label><?=$l->translate("howfindus")?></label>
+                                        <select name="howfind" id="howfind" class="has-dark-background glakho">
                                             <option value=""><?=$l->translate("howfindus")?></option>
                                             <?php foreach($data["howfindus"] as $item):?>
-                                            <option value="<?=$item['id']?>"><?=$item['title']?></option>
+                                            <option value="<?=$item['idx']?>"><?=$item['title']?></option>
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
@@ -62,7 +62,7 @@ echo $data['headertop'];
                                         <label><?=$l->translate("choosetraining")?></label>
                                         <?=$trainings->index()?>
                                     </div>
-                                    <button type="submit" class="btn pull-right"><?=$l->translate("register")?></button>
+                                    <button type="button" class="btn pull-right register-to-training"><?=$l->translate("register")?></button>
                                 </form>
                             </section><!-- /#account-block -->
                         </div><!-- /.col-md-6 -->

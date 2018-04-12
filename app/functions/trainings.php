@@ -15,7 +15,7 @@ class trainings
 		));
 		$output = $Database->getter();
 		
-		$out = "<select name=\"slider-study-level\" id=\"slider-study-level\" class=\"has-dark-background glakho\">";
+		$out = "<select name=\"trainingid\" id=\"trainingid\" class=\"has-dark-background glakho\">";
 
 		$out .= sprintf(
 			"<option value=\"\">%s</option>",

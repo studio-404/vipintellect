@@ -280,6 +280,42 @@ $(document).on("click", ".bottom_search_button", function(){
 });
 
 
+$(document).on("click", ".register-to-training", function(){
+    var firstname = $("#firstname").val();
+    var phone = $("#phone").val();
+    var email = $("#email").val();
+    var age = $("#age").val();
+    var starttime = $("#starttime").val();
+    var howfind = $("#howfind").val();
+    var trainingid = $("#trainingid").val();
+    var lang = $("#input_lang").val();
+    var ajaxFile = "/registertotraining";
+    $.ajax({
+        method: "POST",
+        url: Config.ajax + ajaxFile,
+        data: { firstname:firstname, phone:phone, email:email, age:age, starttime:starttime, howfind:howfind, trainingid:trainingid, lang:lang }
+    }).done(function( msg ) {
+        var obj = $.parseJSON(msg);
+        if(obj.Success.Code==1){
+            var text = obj.Success.Text;
+            $("#firstname").val('');
+            $("#phone").val('');
+            $("#email").val('');
+            $("#age").val('');
+            $("#starttime").val('');
+            $("#howfind").val('');
+            $("#trainingid").val('');
+            alert(text);
+            window.location.reload(true);
+        }else{
+            var text = obj.Error.Text;
+        }
+
+        $(".contact-error-message").html(text);
+
+    });
+});
+
 $(document).on("click", "#submit", function(){
     var firstname = $("#firstname").val();
     var email = $("#email").val();
@@ -304,7 +340,6 @@ $(document).on("click", "#submit", function(){
         $(".contact-error-message").html(text);
 
     });
-
 });
 
 // Remove button function for "join to course" button after count down is over
