@@ -83,7 +83,7 @@ echo $data['headertop'];
                                               
                                           </div><!-- /.col-md-6 -->
                                       </div><!-- /.row -->
-                                      <button type="submit" id="slider-submit" class="btn btn-framed pull-right glakho register-to-training"><?=$l->translate("register")?></button>
+                                      <button type="button" id="slider-submit" class="btn btn-framed pull-right glakho register-to-training"><?=$l->translate("register")?></button>
                                       <div id="form-status"></div>
                                   </form>
                               </div><!-- /.col-md-12 -->

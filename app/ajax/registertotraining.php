@@ -34,12 +34,12 @@ class registertotraining
 		$trainingid = functions\request::index("POST","trainingid");
 
 		if(
-			empty($firstname) && 
-			empty($phone) &&
-			empty($email) &&
-			empty($age) &&
-			empty($starttime) &&
-			empty($howfind) &&
+			empty($firstname) OR 
+			empty($phone) OR
+			empty($email) OR
+			empty($age) OR
+			empty($starttime) OR
+			empty($howfind) OR
 			empty($trainingid) 
 		){
 			$error = 1;

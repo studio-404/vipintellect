@@ -309,10 +309,8 @@ $(document).on("click", ".register-to-training", function(){
             window.location.reload(true);
         }else{
             var text = obj.Error.Text;
+            alert(text);
         }
-
-        $(".contact-error-message").html(text);
-
     });
 });
 
