@@ -64,14 +64,27 @@ class editPageForm
 				"id"=>""
 			));
 
+			$disabled = ($_SESSION[Config::SESSION_PREFIX."username"]!="root") ? "true" : "false";
+			$form .= functions\makeForm::label(array(
+				"id"=>"chooseNavTypeLabel", 
+				"for"=>"chooseNavType", 
+				"name"=>"ნავიგაციის ტიპი",
+				"require"=>""
+			));
 			$form .= functions\makeForm::select(array(
 				"id"=>"chooseNavType",
 				"choose"=>"აირჩიეთ ნავიგაციის ტიპი",
 				"options"=>array("მთავარი", "დამატებითი"), 
 				"selected"=>$output['nav_type'],
-				"disabled"=>"true"
+				"disabled"=>$disabled 
 			));
 
+			$form .= functions\makeForm::label(array(
+				"id"=>"choosePageTypeLabel", 
+				"for"=>"choosePageType", 
+				"name"=>"გვერდის ტიპი",
+				"require"=>""
+			));
 			$form .= functions\makeForm::select(array(
 				"id"=>"choosePageType",
 				"choose"=>"აირჩიეთ გვერდის ტიპი",
@@ -82,9 +95,15 @@ class editPageForm
 					"catalog"=>"კატალოგი"
 				), 
 				"selected"=>$output['type'],
-				"disabled"=>"false"
+				"disabled"=>$disabled
 			));
 
+			$form .= functions\makeForm::label(array(
+				"id"=>"titleLabel", 
+				"for"=>"title", 
+				"name"=>"დასახელება",
+				"require"=>""
+			));
 			$form .= functions\makeForm::inputText(array(
 				"placeholder"=>"დასახელება", 
 				"id"=>"title", 
@@ -92,6 +111,12 @@ class editPageForm
 				"value"=>$output['title']
 			));
 
+			$form .= functions\makeForm::label(array(
+				"id"=>"slugLabel", 
+				"for"=>"slug", 
+				"name"=>"ბმული",
+				"require"=>""
+			));
 			$form .= functions\makeForm::inputText(array(
 				"placeholder"=>"ბმული", 
 				"id"=>"slug", 
@@ -100,27 +125,46 @@ class editPageForm
 				"readonly"=>true
 			));
 
-			/*  ^^^^^^^^^^^^^^^ */
-			$form .= functions\makeForm::inputText(array(
-				"placeholder"=>"კლასი", 
-				"id"=>"cssClass", 
-				"name"=>"cssClass",
-				"value"=>$output['cssclass']
-			));
+			if($_SESSION[Config::SESSION_PREFIX."username"]=="root"){
+				$form .= functions\makeForm::label(array(
+					"id"=>"cssClassLabel", 
+					"for"=>"cssClass", 
+					"name"=>"კლასი",
+					"require"=>""
+				));
+				$form .= functions\makeForm::inputText(array(
+					"placeholder"=>"კლასი", 
+					"id"=>"cssClass", 
+					"name"=>"cssClass",
+					"value"=>$output['cssclass']
+				));
 
-			$parentModuleOptions = new Database('modules', array(
-				'method'=>'parentModuleOptions', 
-				'lang'=>$lang
-			));
+				$parentModuleOptions = new Database('modules', array(
+					'method'=>'parentModuleOptions', 
+					'lang'=>$lang
+				));
 
-			$form .= functions\makeForm::select(array(
-				"id"=>"attachModule",
-				"choose"=>"მიამაგრე მოდული",
-				"options"=>$parentModuleOptions->getter(),
-				"selected"=>$output['usefull_type'],
-				"disabled"=>"false"
-			));
+				$form .= functions\makeForm::label(array(
+					"id"=>"attachModuleLabel", 
+					"for"=>"attachModule", 
+					"name"=>"მოდული",
+					"require"=>""
+				));
+				$form .= functions\makeForm::select(array(
+					"id"=>"attachModule",
+					"choose"=>"მიამაგრე მოდული",
+					"options"=>$parentModuleOptions->getter(),
+					"selected"=>$output['usefull_type'],
+					"disabled"=>"false"
+				));
+			}
 
+			$form .= functions\makeForm::label(array(
+				"id"=>"redirectLabel", 
+				"for"=>"redirect", 
+				"name"=>"გადამისამართება",
+				"require"=>""
+			));
 			$form .= functions\makeForm::inputText(array(
 				"placeholder"=>"გადამისამართება", 
 				"id"=>"redirect", 
@@ -128,19 +172,21 @@ class editPageForm
 				"value"=>$output['redirect']
 			));
 
-			$form .= functions\makeForm::label(array(
-				"id"=>"shortDescription", 
-				"for"=>"pageDescription", 
-				"name"=>"მოკლე აღწერა",
-				"require"=>""
-			));
+			if($_SESSION[Config::SESSION_PREFIX."username"]=="root"){
+				$form .= functions\makeForm::label(array(
+					"id"=>"shortDescription", 
+					"for"=>"pageDescription", 
+					"name"=>"მოკლე აღწერა",
+					"require"=>""
+				));
 
-			$form .= functions\makeForm::textarea(array(
-				"id"=>"pageDescription",
-				"name"=>"pageDescription",
-				"placeholder"=>"მოკლე აღწერა", 
-				"value"=>$output['description']
-			));
+				$form .= functions\makeForm::textarea(array(
+					"id"=>"pageDescription",
+					"name"=>"pageDescription",
+					"placeholder"=>"მოკლე აღწერა", 
+					"value"=>$output['description']
+				));
+			}
 
 			$form .= functions\makeForm::label(array(
 				"id"=>"longDescription", 
@@ -156,6 +202,13 @@ class editPageForm
 				"value"=>$output['text'] 
 			));
 
+
+			$form .= functions\makeForm::label(array(
+				"id"=>"photoLabel", 
+				"for"=>"photo", 
+				"name"=>"ფოტოს მიმაგრება",
+				"require"=>""
+			));
 			$form .= "<div class=\"row\" id=\"photoUploaderBox\" style=\"margin:0 -10px\">";
 
 			if(count($pictures)){
@@ -203,64 +256,69 @@ class editPageForm
 
 	  		$form .= "<div style=\"clear:both\"></div>";
 
-        	$form .= "<a href=\"javascript:void(0)\" class=\"waves-effect waves-light btn margin-bottom-20\" style=\"clear:both; margin-top: 40px;\" onclick=\"openFileManagerForFiles('attachfiles')\"><i class=\"material-icons left\">note_add</i>ატვირთვა</a>";
+	  		if($_SESSION[Config::SESSION_PREFIX."username"]=="root"){
+	  			$form .= "<div class=\"input-field\">
+		            <label>ფაილის მიმაგრება: </label>
+		          </div>";
+	          
+	        	$form .= "<a href=\"javascript:void(0)\" class=\"waves-effect waves-light btn margin-bottom-20\" style=\"clear:both; margin-top: 40px;\" onclick=\"openFileManagerForFiles('attachfiles')\"><i class=\"material-icons left\">note_add</i>ატვირთვა</a>";
 
-        	$form .= "<input type=\"hidden\" name=\"random\" id=\"random\" value=\"".$random."\" />";
-        	$form .= "<input type=\"hidden\" name=\"file_attach_type\" id=\"file_attach_type\" value=\"page\" />";
-        	
-        	$form .= "<ul class=\"collection with-header\" id=\"sortableFiles-box\">";
+	        	$form .= "<input type=\"hidden\" name=\"random\" id=\"random\" value=\"".$random."\" />";
+	        	$form .= "<input type=\"hidden\" name=\"file_attach_type\" id=\"file_attach_type\" value=\"page\" />";
+	        	
+	        	$form .= "<ul class=\"collection with-header\" id=\"sortableFiles-box\">";
 
-	  		if(count($files))
-	  		{
-	  			$runed = 1;
-	  			foreach ($files as $f) {
-	  				$explode = explode("/", $f['file_path']);
-	  				$filename = end($explode);
+		  		if(count($files))
+		  		{
+		  			$runed = 1;
+		  			foreach ($files as $f) {
+		  				$explode = explode("/", $f['file_path']);
+		  				$filename = end($explode);
 
-	  				$form .= "<li class=\"collection-item level-0 popupfile0\" data-item=\"".$f['idx']."\" data-cid=\"".$f['cid']."\" data-file=\"".$f['file_path']."\">
-							<div>
-								".$filename."
-								
-								<a href=\"javascript:void(0)\" onclick=\"removeAttachedFile('level-0','".$f['idx']."', true)\" class=\"secondary-content tooltipped\" data-position=\"bottom\" data-delay=\"50\" data-tooltip=\"წაშლა\"><i class=\"material-icons\">delete</i></a>
-								<a href=\"javascript:void(0)\" class=\"secondary-content tooltipped\" data-position=\"bottom\" data-delay=\"50\" data-tooltip=\"კომენტარი (5)\"><i class=\"material-icons\">comment</i></a>
-								<a href=\"javascript:void(0)\" onclick=\"openFileManagerForSubFiles('subfilex".$f['idx']."','".$f['idx']."')\" class=\"secondary-content tooltipped\" data-position=\"bottom\" data-delay=\"50\" data-tooltip=\"დამატება\"><i class=\"material-icons\">note_add</i></a>
-							</div>";
-			       $form .= "</li>";
-			       $database = new Database("file", array(
-			       		"method"=>"selectFilesByPageId", 
-			       		"cid"=>$f['idx'], 
-			       		"page_id"=>$f['page_id'], 
-			       		"type"=>$f['type'], 
-			       		"lang"=>$f['lang']  
-			       ));
-			       
-			       $subfiles = $database->getter(); 
-			       if(count($subfiles))
-			       { 
-				       	if($runed==1){
-								$form .= "<ul id=\"subfilex-".$f['idx']."\" class=\"collection with-header sortableFiles-box2\" data-cid=\"".$f['idx']."\" style=\"margin:10px;\">";
-						}
-			       		foreach ($subfiles as $sf) {
-			       			$ex = explode("/", $sf['file_path']); 
-			       			$fn = end($ex);
-							$form .= "<li class=\"collection-item level-2\" data-item=\"".$sf['idx']."\" data-cid=\"".$sf['cid']."\" data-path=\"".$sf['idx']."\">";
-							$form .= "<div>";
-							$form .= $fn;
-							$form .= "<a href=\"javascript:void(0)\" onclick=\"removeAttachedFile('level-2','".$sf['idx']."', false)\"  class=\"secondary-content tooltipped\" data-position=\"bottom\" data-delay=\"50\" data-tooltip=\"წაშლა\"><i class=\"material-icons\">delete</i></a>";
-							$form .= "<a href=\"\" class=\"secondary-content tooltipped\" data-position=\"bottom\" data-delay=\"50\" data-tooltip=\"კომენტარი (5)\"><i class=\"material-icons\">comment</i></a>";
-							$form .= "</div>";
-							$form .= "</li>";
-			       		}
-			       		if($runed==1){
-							$form .= "</ul>";
-						}
-			       }
-					
-	  			}
+		  				$form .= "<li class=\"collection-item level-0 popupfile0\" data-item=\"".$f['idx']."\" data-cid=\"".$f['cid']."\" data-file=\"".$f['file_path']."\">
+								<div>
+									".$filename."
+									
+									<a href=\"javascript:void(0)\" onclick=\"removeAttachedFile('level-0','".$f['idx']."', true)\" class=\"secondary-content tooltipped\" data-position=\"bottom\" data-delay=\"50\" data-tooltip=\"წაშლა\"><i class=\"material-icons\">delete</i></a>
+									<a href=\"javascript:void(0)\" class=\"secondary-content tooltipped\" data-position=\"bottom\" data-delay=\"50\" data-tooltip=\"კომენტარი (5)\"><i class=\"material-icons\">comment</i></a>
+									<a href=\"javascript:void(0)\" onclick=\"openFileManagerForSubFiles('subfilex".$f['idx']."','".$f['idx']."')\" class=\"secondary-content tooltipped\" data-position=\"bottom\" data-delay=\"50\" data-tooltip=\"დამატება\"><i class=\"material-icons\">note_add</i></a>
+								</div>";
+				       $form .= "</li>";
+				       $database = new Database("file", array(
+				       		"method"=>"selectFilesByPageId", 
+				       		"cid"=>$f['idx'], 
+				       		"page_id"=>$f['page_id'], 
+				       		"type"=>$f['type'], 
+				       		"lang"=>$f['lang']  
+				       ));
+				       
+				       $subfiles = $database->getter(); 
+				       if(count($subfiles))
+				       { 
+					       	if($runed==1){
+									$form .= "<ul id=\"subfilex-".$f['idx']."\" class=\"collection with-header sortableFiles-box2\" data-cid=\"".$f['idx']."\" style=\"margin:10px;\">";
+							}
+				       		foreach ($subfiles as $sf) {
+				       			$ex = explode("/", $sf['file_path']); 
+				       			$fn = end($ex);
+								$form .= "<li class=\"collection-item level-2\" data-item=\"".$sf['idx']."\" data-cid=\"".$sf['cid']."\" data-path=\"".$sf['idx']."\">";
+								$form .= "<div>";
+								$form .= $fn;
+								$form .= "<a href=\"javascript:void(0)\" onclick=\"removeAttachedFile('level-2','".$sf['idx']."', false)\"  class=\"secondary-content tooltipped\" data-position=\"bottom\" data-delay=\"50\" data-tooltip=\"წაშლა\"><i class=\"material-icons\">delete</i></a>";
+								$form .= "<a href=\"\" class=\"secondary-content tooltipped\" data-position=\"bottom\" data-delay=\"50\" data-tooltip=\"კომენტარი (5)\"><i class=\"material-icons\">comment</i></a>";
+								$form .= "</div>";
+								$form .= "</li>";
+				       		}
+				       		if($runed==1){
+								$form .= "</ul>";
+							}
+				       }
+						
+		  			}
+		  		}
+
+		  		$form .= "</ul>";
 	  		}
-
-	  		$form .= "</ul>";
-
 	  		
 			$form .= functions\makeForm::close();
 

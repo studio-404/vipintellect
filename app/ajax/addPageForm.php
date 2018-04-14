@@ -49,14 +49,31 @@ class addPageForm
 			"value"=>$lang
 		));
 
+		$disabled = ($_SESSION[Config::SESSION_PREFIX."username"]!="root") ? "true" : "false";
+		
+		$form .= functions\makeForm::label(array(
+			"id"=>"chooseNavTypeLabel", 
+			"for"=>"chooseNavType", 
+			"name"=>"ნავიგაციის ტიპი",
+			"require"=>""
+		));
 		$form .= functions\makeForm::select(array(
 			"id"=>"chooseNavType",
 			"choose"=>"აირჩიეთ ნავიგაციის ტიპი",
 			"options"=>array("მთავარი", "დამატებითი"),
 			"selected"=>"false",
-			"disabled"=>"false"
+			"disabled"=>$disabled
 		));
 
+		$disabled = ($_SESSION[Config::SESSION_PREFIX."username"]!="root") ? "true" : "false";
+		$selected = ($_SESSION[Config::SESSION_PREFIX."username"]!="root") ? "text" : "false";
+
+		$form .= functions\makeForm::label(array(
+			"id"=>"choosePageTypeLabel", 
+			"for"=>"choosePageType", 
+			"name"=>"გვერდის ტიპი",
+			"require"=>""
+		));
 		$form .= functions\makeForm::select(array(
 			"id"=>"choosePageType",
 			"choose"=>"აირჩიეთ გვერდის ტიპი",
@@ -66,10 +83,16 @@ class addPageForm
 				"plugin"=>"პლაგინი",
 				"catalog"=>"კატალოგი"
 			),
-			"selected"=>"false",
-			"disabled"=>"false"
+			"selected"=>$selected,
+			"disabled"=>$disabled
 		));
 
+		$form .= functions\makeForm::label(array(
+			"id"=>"titleLabel", 
+			"for"=>"title", 
+			"name"=>"დასახელება",
+			"require"=>""
+		));
 		$form .= functions\makeForm::inputText(array(
 			"placeholder"=>"დასახელება", 
 			"id"=>"title", 
@@ -77,7 +100,12 @@ class addPageForm
 			"value"=>""
 		));
 
-
+		$form .= functions\makeForm::label(array(
+			"id"=>"slugLabel", 
+			"for"=>"slug", 
+			"name"=>"ბმული",
+			"require"=>""
+		));
 		$form .= functions\makeForm::inputText(array(
 			"placeholder"=>"ბმული", 
 			"id"=>"slug", 
@@ -85,26 +113,47 @@ class addPageForm
 			"value"=>""
 		));
 
-		$form .= functions\makeForm::inputText(array(
-			"placeholder"=>"კლასი", 
-			"id"=>"cssClass", 
-			"name"=>"cssClass",
-			"value"=>""
-		));
+		if($_SESSION[Config::SESSION_PREFIX."username"]=="root"){
+			$form .= functions\makeForm::label(array(
+				"id"=>"cssClassLabel", 
+				"for"=>"cssClass", 
+				"name"=>"კლასი",
+				"require"=>""
+			));
+			$form .= functions\makeForm::inputText(array(
+				"placeholder"=>"კლასი", 
+				"id"=>"cssClass", 
+				"name"=>"cssClass",
+				"value"=>""
+			));
 
-		$parentModuleOptions = new Database('modules', array(
-			'method'=>'parentModuleOptions', 
-			'lang'=>'ge'
-		));
 
-		$form .= functions\makeForm::select(array(
-			"id"=>"attachModule",
-			"choose"=>"მიამაგრე მოდული",
-			"options"=>$parentModuleOptions->getter(),
-			"selected"=>"false",
-			"disabled"=>"false"
-		));
+			$parentModuleOptions = new Database('modules', array(
+				'method'=>'parentModuleOptions', 
+				'lang'=>'ge'
+			));
 
+			$form .= functions\makeForm::label(array(
+				"id"=>"attachModuleLabel", 
+				"for"=>"attachModule", 
+				"name"=>"მოდული",
+				"require"=>""
+			));
+			$form .= functions\makeForm::select(array(
+				"id"=>"attachModule",
+				"choose"=>"მიამაგრე მოდული",
+				"options"=>$parentModuleOptions->getter(),
+				"selected"=>"false",
+				"disabled"=>"false"
+			));
+		}
+
+		$form .= functions\makeForm::label(array(
+			"id"=>"redirectLabel", 
+			"for"=>"redirect", 
+			"name"=>"გადამისამართება",
+			"require"=>""
+		));
 		$form .= functions\makeForm::inputText(array(
 			"placeholder"=>"გადამისამართება", 
 			"id"=>"redirect", 
@@ -112,19 +161,21 @@ class addPageForm
 			"value"=>"" 
 		));
 
-		$form .= functions\makeForm::label(array(
-			"id"=>"shortDescription", 
-			"for"=>"pageDescription", 
-			"name"=>"მოკლე აღწერა",
-			"require"=>""
-		));
+		if($_SESSION[Config::SESSION_PREFIX."username"]=="root"){
+			$form .= functions\makeForm::label(array(
+				"id"=>"shortDescription", 
+				"for"=>"pageDescription", 
+				"name"=>"მოკლე აღწერა",
+				"require"=>""
+			));
 
-		$form .= functions\makeForm::textarea(array(
-			"id"=>"pageDescription",
-			"name"=>"pageDescription",
-			"placeholder"=>"მოკლე აღწერა",
-			"value"=>""
-		));
+			$form .= functions\makeForm::textarea(array(
+				"id"=>"pageDescription",
+				"name"=>"pageDescription",
+				"placeholder"=>"მოკლე აღწერა",
+				"value"=>""
+			));
+		}
 
 		$form .= functions\makeForm::label(array(
 			"id"=>"longDescription", 
@@ -140,6 +191,12 @@ class addPageForm
 			"value"=>""
 		));
 
+		$form .= functions\makeForm::label(array(
+			"id"=>"photoLabel", 
+			"for"=>"photo", 
+			"name"=>"ფოტოს მიმაგრება",
+			"require"=>""
+		));
 		$form .= "<div class=\"row\" id=\"photoUploaderBox\" style=\"margin:0 -10px\">";
 		
 		$form .= "<div class=\"col s4 imageItem\" id=\"img1\">
@@ -164,20 +221,22 @@ class addPageForm
   		
   		$form .= "<div style=\"clear:both\"></div>";
 
-  		$form .= "<div class=\"input-field\">
-            <label>ფაილის მიმაგრება: </label>
-          </div>";
+  		if($_SESSION[Config::SESSION_PREFIX."username"]=="root"){
+	  		$form .= "<div class=\"input-field\">
+	            <label>ფაილის მიმაგრება: </label>
+	          </div>";
 
-        $form .= "<div style=\"clear:both\"></div>";
+	        $form .= "<div style=\"clear:both\"></div>";
 
-        $form .= "<a href=\"javascript:void(0)\" class=\"waves-effect waves-light btn margin-bottom-20\" style=\"clear:both; margin-top: 40px;\" onclick=\"openFileManagerForFiles('attachfiles')\"><i class=\"material-icons left\">note_add</i>ატვირთვა</a>";
+	        $form .= "<a href=\"javascript:void(0)\" class=\"waves-effect waves-light btn margin-bottom-20\" style=\"clear:both; margin-top: 40px;\" onclick=\"openFileManagerForFiles('attachfiles')\"><i class=\"material-icons left\">note_add</i>ატვირთვა</a>";
 
-  		$form .= "<input type=\"hidden\" name=\"random\" id=\"random\" value=\"".$random."\" />";
-  		$form .= "<input type=\"hidden\" name=\"file_attach_type\" id=\"file_attach_type\" value=\"page\" />";
-  		$form .= "<ul class=\"collection with-header\" id=\"sortableFiles-box\">";
+	  		$form .= "<input type=\"hidden\" name=\"random\" id=\"random\" value=\"".$random."\" />";
+	  		$form .= "<input type=\"hidden\" name=\"file_attach_type\" id=\"file_attach_type\" value=\"page\" />";
+	  		$form .= "<ul class=\"collection with-header\" id=\"sortableFiles-box\">";
 
 
-      	$form .= "</ul>";
+	      	$form .= "</ul>";
+      	}
   		
   	
 

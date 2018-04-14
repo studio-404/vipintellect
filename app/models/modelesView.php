@@ -8,6 +8,7 @@ class modelesView
 		require_once("app/functions/strip_output.php");
 		$RESTRICTED_MODULE_DELETE_IDX = explode("|", Config::RESTRICTED_MODULE_DELETE_IDX);
 		$out = '';
+		
 		if(count($this->data)) : 
 			foreach ($this->data as $val) {
 				$visibility = ($val['visibility']==0) ? 'visibility' : 'visibility_off';

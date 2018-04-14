@@ -81,6 +81,7 @@ class websiteNavigation
 					"method"=>"select", 
 					"cid"=>$val['idx'], 
 					"nav_type"=>0, 
+					"visibility"=>"showanyway",
 					"lang"=>$val['lang'], 
 					"status"=>0
 				));
@@ -130,6 +131,7 @@ class websiteNavigation
 							"method"=>"select", 
 							"cid"=>$v['idx'], 
 							"nav_type"=>0, 
+							"visibility"=>"showanyway",
 							"lang"=>$v['lang'], 
 							"status"=>0
 						));
@@ -155,6 +157,10 @@ class websiteNavigation
 										<i class=\"material-icons tooltipped\" data-position=\"bottom\" data-delay=\"50\" data-tooltip=\"ხილვადობის შეცვლა\">".$vis."</i>
 					 			</a>";
 
+								$nav .= "<a href=\"javascript:void(0)\" onclick=\"add_page('".$v3["idx"]."')\">
+								<i class=\"material-icons tooltipped\" data-position=\"bottom\" data-delay=\"50\" data-tooltip=\"დამატება\">note_add</i>
+								</a>";
+
 					 			$nav .= "<a href=\"javascript:void(0)\" onclick=\"editPage('".$v3["idx"]."','".$v3["lang"]."')\">
 					 					<i class=\"material-icons tooltipped\" data-position=\"bottom\" data-delay=\"50\" data-tooltip=\"რედაქტირება\">mode_edit</i>
 					 					</a>";
@@ -168,6 +174,54 @@ class websiteNavigation
 								$nav .= "</div>";
 						
 								$nav .= "</div>";
+
+
+								$subSubNavigation2 = new Database('page', array(
+									"method"=>"select", 
+									"cid"=>$v3['idx'], 
+									"nav_type"=>0, 
+									"visibility"=>"showanyway",
+									"lang"=>$v3['lang'], 
+									"status"=>0
+								));
+
+								if($subSubNavigation2->getter()){
+									foreach ($subSubNavigation2->getter() as $v4) {
+										$vis4 = ($v4['visibility']==1) ? "visibility_off" : "visibility";
+										$usefull_url4 = ($v4['usefull_type'] == "false") ? "javascript:void(0)" : "/".$_SESSION["LANG"]."/dashboard/modules/".$v4['usefull_type'];
+										$usefull_url4 = "<a href=\"".$usefull_url3."\">";
+										$usefull_url4 .= "<i class=\"material-icons tooltipped\" data-position=\"bottom\" data-delay=\"50\" data-tooltip=\"მოდულზე გადასვლა\">view_module</i>";
+										$usefull_url4 .= "</a>";
+
+
+										$nav .= "<div class=\"row level-3 sub-".$v4['cid']."\" data-item=\"".$v4['idx']."\" data-cid=\"".$v4['cid']."\" data-level=\"3\" style=\"background:#BDBDBD\">";
+										$nav .= "<div class=\"cell roboto-font\">".$v4['idx']."</div>";
+										$nav .= "<div class=\"cell roboto-font\">".$v4['cid']."</div>";
+										$nav .= "<div class=\"cell roboto-font\">".$v4['position']."</div>";
+										$nav .= "<div class=\"cell\"><a href=\"\" target=\"_blank\">".$v4['title']."</a></div>";
+										$nav .= "<div class=\"cell roboto-font\">".$v4['type']."</div>";
+								
+										$nav .= "<div class=\"cell\">";
+										$nav .= "<a href=\"javascript:void(0)\" onclick=\"changeVisibility('".$v4["visibility"]."','".$v4["idx"]."')\">
+												<i class=\"material-icons tooltipped\" data-position=\"bottom\" data-delay=\"50\" data-tooltip=\"ხილვადობის შეცვლა\">".$vis4."</i>
+							 			</a>";
+
+							 			$nav .= "<a href=\"javascript:void(0)\" onclick=\"editPage('".$v4["idx"]."','".$v4["lang"]."')\">
+							 					<i class=\"material-icons tooltipped\" data-position=\"bottom\" data-delay=\"50\" data-tooltip=\"რედაქტირება\">mode_edit</i>
+							 					</a>";
+
+							 			$nav .= $usefull_url4;
+
+							 			$nav .= "<a href=\"javascript:void(0)\" onclick=\"askRemovePage('0','".$v4['position']."','".$v4['idx']."', '".$v4["cid"]."')\">
+										<i class=\"material-icons tooltipped\" data-position=\"bottom\" data-delay=\"50\" data-tooltip=\"წაშლა\">delete</i>
+							 			</a>";
+
+										$nav .= "</div>";
+								
+										$nav .= "</div>";
+
+									}
+								}
 
 							}
 						}

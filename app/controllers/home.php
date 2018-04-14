@@ -20,19 +20,25 @@ class Home extends Controller
 
 		$db_howfindus = new Database("modules", array(
 			"method"=>"selectModuleByType", 
-			"type"=>"howfindus"
+			"type"=>"howfindus",
+			"order"=>"`date`",
+			"by"=>"DESC"
 		));
 
 		$db_slider = new Database("modules", array(
 			"method"=>"selectModuleByType", 
 			"type"=>"slider",
+			"order"=>"`date`",
+			"by"=>"DESC",
 			"from"=>0, 
 			"num"=>15
 		));
 
 		$db_usefulllinks = new Database("modules", array(
 			"method"=>"selectModuleByType", 
-			"type"=>"usefulllinks"
+			"type"=>"usefulllinks",
+			"order"=>"`date`",
+			"by"=>"DESC"
 		));
 
 		$db_navigation = new Database("page", array(
@@ -65,7 +71,9 @@ class Home extends Controller
 
 		$db_socialnetworks = new Database("modules", array(
 			"method"=>"selectModuleByType", 
-			"type"=>"socialnetworks"
+			"type"=>"socialnetworks",
+			"order"=>"`date`",
+			"by"=>"DESC"
 		));
 
 		$db_news = new Database("modules", array(
@@ -78,6 +86,8 @@ class Home extends Controller
 		$db_vacancies = new Database("modules", array(
 			"method"=>"selectModuleByType", 
 			"type"=>"vacancies",
+			"order"=>"`date`",
+			"by"=>"DESC",
 			"from"=>0,
 			"num"=>Config::HOME_PAGE_VACANCIES_NUM
 		));
@@ -85,6 +95,8 @@ class Home extends Controller
 		$db_staff = new Database("modules", array(
 			"method"=>"selectModuleByType", 
 			"type"=>"staff",
+			"order"=>"`date`",
+			"by"=>"DESC",
 			"from"=>0,
 			"num"=>Config::HOME_PAGE_STAFF_NUM
 		));
@@ -92,6 +104,8 @@ class Home extends Controller
 		$db_partners = new Database("modules", array(
 			"method"=>"selectModuleByType", 
 			"type"=>"partners",
+			"order"=>"`date`",
+			"by"=>"DESC",
 			"from"=>0,
 			"num"=>Config::HOME_PAGE_PARTNERS_NUM
 		));
@@ -99,6 +113,8 @@ class Home extends Controller
 		$db_gallery = new Database("modules", array(
 			"method"=>"selectModuleByType", 
 			"type"=>"gallery",
+			"order"=>"`date`",
+			"by"=>"DESC",
 			"from"=>0,
 			"num"=>Config::HOME_PAGE_GALLERY_NUM
 		));

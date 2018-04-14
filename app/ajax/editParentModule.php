@@ -26,9 +26,10 @@ class editParentModule
 
 		$idx = functions\request::index("POST","parentModuleId");
 		$title = functions\request::index("POST","title");
+		$field = functions\request::index("POST","field");
 		$lang = functions\request::index("POST","lang");
 		
-		if($idx == "" || $title=="" || $lang=="")
+		if($idx == "" || $title=="" || $field=="" || $lang=="")
 		{
 			$this->out = array(
 				"Error" => array(
@@ -42,7 +43,8 @@ class editParentModule
 					'method'=>'editParentModule', 
 					'idx'=>$idx, 
 					'lang'=>$lang, 
-					'title'=>$title
+					'title'=>$title,
+					'field'=>$field
 			));
 			$output = $Database->getter();
 			if($output){

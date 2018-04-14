@@ -43,7 +43,7 @@ class _gallery
 				$bigimage = "/public/filemanager/noimage.png";
 			}
 
-			if($item["url"]=="empty"){
+			if($item["url"]=="empty" || $item["url"]==""){
 				$out .= "<li>";
                 $out .= sprintf(
                 	"<a href=\"%s\" class=\"image-popup\" title=\"%s\">",

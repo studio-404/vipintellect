@@ -93,8 +93,8 @@ var formPageAdd = function(){
 	var cssClass = $("#cssClass").val();
 	var attachModule = $("#attachModule").val();
 	var redirect = $("#redirect").val();
-	var pageDescription = tinymce.get('pageDescription').getContent();
-	var pageText = tinymce.get('pageText').getContent();
+	var pageDescription = (tinymce.get('pageDescription') != null) ? tinymce.get('pageDescription').getContent() : '';
+	var pageText = (tinymce.get('pageText') != null) ? tinymce.get('pageText').getContent() : '';
 	var random = $("#random").val();
 	var file_attach_type = $("#file_attach_type").val();
 
@@ -134,9 +134,7 @@ var formPageAdd = function(){
 		(typeof chooseNavType === "undefined" || chooseNavType=="") || 
 		(typeof choosePageType === "undefined" || choosePageType=="") || 
 		(typeof title === "undefined" || title=="") || 
-		(typeof slug === "undefined" || slug=="") || 
-		(typeof pageDescription === "undefined" || pageDescription=="") || 
-		(typeof pageText === "undefined" || pageText=="")
+		(typeof slug === "undefined" || slug=="") 
 	){
 		$(".modal-message-box").html("ყველა ველი სავალდებულოა !");
 	}else{
@@ -160,6 +158,7 @@ var formPageAdd = function(){
 				$(".modal-message-box").html("E");
 			}
 			scrollTop();
+			setTimeout(function(){ location.reload(); }, 2000);
 		});
 	}
 };
@@ -173,8 +172,8 @@ var formPageEdit = function(idx, lang){
 	var cssClass = $("#cssClass").val();
 	var attachModule = $("#attachModule").val();
 	var redirect = $("#redirect").val();
-	var pageDescription = tinymce.get('pageDescription').getContent();
-	var pageText = tinymce.get('pageText').getContent();
+	var pageDescription = (tinymce.get('pageDescription') != null) ? tinymce.get('pageDescription').getContent() : '';
+	var pageText = (tinymce.get('pageText') != null) ? tinymce.get('pageText').getContent() : '';
 	var random = $("#random").val();
 	var file_attach_type = $("#file_attach_type").val();
 
@@ -232,6 +231,7 @@ var formPageEdit = function(idx, lang){
 				$(".modal-message-box").html("E");
 			}
 			scrollTop();
+			setTimeout(function(){ location.reload(); }, 2000);	
 		});
 	}
 };
@@ -481,7 +481,7 @@ var editPage = function(idx, lang){
 			});
 
 			tiny(".tinymceTextArea");
-			scrollTop();			
+			scrollTop();		
 		}
 	});
 };
@@ -574,7 +574,10 @@ var edit_parent_module = function(lang){
 			$("#chooseParentModule").material_select();
 
 			$("#chooseParentModule").on("change", function(){
+				var val = $(this).val();
+				var field = $("#fields"+val).val();
 				$("#title").val($("option:selected", this).text());
+				$("#field").val(field);
 			});
 		}
 	});
@@ -817,7 +820,7 @@ var formModuleEdit = function(idx, lang){
 	var title = $("#title").val();
 	var file_attach_type = $("#file_attach_type").val();
 	var random = $("#random").val();
-	var pageText = tinymce.get('pageText').getContent();
+	var pageText = (tinymce.get('pageText') !== null) ? tinymce.get('pageText').getContent() : "Hidden field";
 	var link = (typeof $("#link").val() !== "undefined" && $("#link").val()!="") ? $("#link").val() : "empty";
 	var classname = (typeof $("#classname").val() !== "undefined" && $("#classname").val()!="") ? $("#classname").val() : "";
 
@@ -910,7 +913,7 @@ var formModuleAdd = function(moduleSlug, lang){
 	var title = $("#title").val();
 	var file_attach_type = $("#file_attach_type").val();
 	var random = $("#random").val();
-	var pageText = tinymce.get('pageText').getContent();
+	var pageText = (tinymce.get('pageText') !== null) ? tinymce.get('pageText').getContent() : "Hidden field";
 	var link = (typeof $("#link").val() !== "undefined" && $("#link").val()!="") ? $("#link").val() : "empty";
 	var classname = (typeof $("#classname").val() !== "undefined" && $("#classname").val()!="") ? $("#classname").val() : "";
 
@@ -998,15 +1001,16 @@ var formParentModuleAdd = function(lang){
 var formParentModuleEdit = function(lang){
 	var parentModuleId = $("#chooseParentModule").val();
 	var title = $("#title").val();
+	var field = $("#field").val();
 
 	var ajaxFile = "/editParentModule";
-	if(typeof title == "undefined" || typeof parentModuleId == "undefined"){
+	if(typeof title == "undefined" || typeof field == "undefined" || typeof parentModuleId == "undefined"){
 		$(".modal-message-box").html("E4");
 	}else{
 		$.ajax({
 			method: "POST",
 			url: Config.ajax + ajaxFile,
-			data: { parentModuleId:parentModuleId, title:title, lang:lang }
+			data: { parentModuleId:parentModuleId, title:title, field:field, lang:lang }
 		}).done(function( msg ) {
 			var obj = $.parseJSON(msg);
 			if(obj.Error.Code==1){

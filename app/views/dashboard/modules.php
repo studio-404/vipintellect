@@ -41,10 +41,11 @@
 
 			<div class="row" style="display: block;">
 				<div class="col s3">
-				
+				<?php if($_SESSION[Config::SESSION_PREFIX."username"]=="root"): ?>
 				<a href="javascript:void(0)" onclick="add_parent_module('<?=$_SESSION["LANG"]?>')" class="waves-effect waves-light btn" style="width: 100%; margin-bottom: 10px;"><i class="material-icons left">add_box</i>დამატება</a>
 				<a href="javascript:void(0)" onclick="edit_parent_module('<?=$_SESSION["LANG"]?>')" class="waves-effect waves-light btn" style="width: 100%; margin-bottom: 10px;"><i class="material-icons left">edit</i>რედაქტირება</a>
 				<a href="javascript:void(0)" onclick="delete_parent_module('<?=$_SESSION["LANG"]?>')" class="waves-effect waves-light btn" style="width: 100%; margin-bottom: 10px;"><i class="material-icons left">delete</i>წაშლა</a>
+				<?php endif; ?>
 
 				<?php
 				$module_slug = (isset($data['parsed_url'][3])) ? $data['parsed_url'][3] : Config::DEFAULT_MODULE;

@@ -35,13 +35,25 @@ class addParentModuleForm
 			"id"=>"",
 		));
 
+		$form .= functions\makeForm::label(array(
+			"id"=>"typeLabel", 
+			"for"=>"type", 
+			"name"=>"მოდულის უნიკალური ბმული",
+			"require"=>""
+		));
 		$form .= functions\makeForm::inputText(array(
-			"placeholder"=>"ტიპი", 
+			"placeholder"=>"მოდულის უნიკალური ბმული", 
 			"id"=>"type", 
 			"name"=>"type",
 			"value"=>""
 		));
-	
+		
+		$form .= functions\makeForm::label(array(
+			"id"=>"titleLabel", 
+			"for"=>"title", 
+			"name"=>"დასახელება",
+			"require"=>""
+		));
 		$form .= functions\makeForm::inputText(array(
 			"placeholder"=>"დასახელება", 
 			"id"=>"title", 

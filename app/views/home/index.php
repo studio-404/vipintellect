@@ -231,8 +231,8 @@ echo $data['headertop'];
                                 }
                             ?>                      
                               <div class="logo">
-                                <a href="<?=$item['url']?>" target="_blank">
-                                  <img src="<?=$image?>" alt="" />
+                                <a href="<?=$item['url']?>" title="<?=htmlentities($item['title'])?>" target="_blank" />
+                                  <img src="<?=$image?>" alt="<?=htmlentities($item['title'])?>" />
                                 </a>
                               </div>
                             <?php endforeach; ?>

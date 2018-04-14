@@ -20,10 +20,11 @@ class modules
 
 	private function editParentModule($args)
 	{
-		$update = "UPDATE `usefull_modules` SET `title`=:title WHERE `lang`=:lang AND `idx`=:idx";
+		$update = "UPDATE `usefull_modules` SET `title`=:title, `fields`=:field WHERE `lang`=:lang AND `idx`=:idx";
 		$prepare = $this->conn->prepare($update);
 		$prepare->execute(array(
 			":title"=>$args['title'],
+			":field"=>trim($args['field'], " "),
 			":lang"=>$args['lang'], 
 			":idx"=>$args['idx'] 
 		));		
@@ -72,6 +73,24 @@ class modules
 		}
 		
 		return $fetch;
+	}
+
+	private function selectParentFieldsByType($args)
+	{
+		$fetchJson = "[]";
+		$select = "SELECT `fields` FROM `usefull_modules` WHERE `type`=:type AND `lang`=:lang AND `status`!=:one";
+		$prepare = $this->conn->prepare($select);
+		$prepare->execute(array(
+			":type"=>$args['type'],
+			":one"=>1,
+			":lang"=>$_SESSION["LANG"]
+		));
+		if($prepare->rowCount()){
+			$fetch = $prepare->fetch(PDO::FETCH_ASSOC);
+			$fetchJson = $fetch['fields']; 
+		}
+		
+		return json_decode($fetchJson, true);
 	}
 
 	private function parentModuleOptions($args)
@@ -125,6 +144,7 @@ class modules
 		$lang = (isset($args['lang'])) ? $args['lang'] : $_SESSION["LANG"];
 		$where = (isset($args["where"])) ? $args["where"] : '';
 		$jsonAddon = (isset($args["jsonAddon"])) ? $args["jsonAddon"] : '';
+		// $visibility = (isset($args["visibility"])) ? 0 : '';
 		
 		$json = Config::CACHE."module_type_".str_replace(array("-"," "), "", implode("_",$_SESSION['URL']))."_".$lang.$from.$args['type'].$jsonAddon.".json";
 
@@ -437,6 +457,7 @@ class modules
 		));
 		if($prepare->rowCount())
 		{
+			$this->clearCache();
 			return 1;
 		}
 		return 0;
@@ -457,14 +478,51 @@ class modules
 		$prepare2->execute(array(":one"=>1));
 		$fetch2 = $prepare2->fetch(PDO::FETCH_ASSOC);
 		$maxId = ($fetch2["maxidx"]) ? $fetch2["maxidx"] + 1 : 1;
-
+		$json = '{
+			"date": {
+			  "visibility":"true",
+			  "title":"თარიღი",
+			  "defaultValue":""
+			},
+			"title":{
+				"visibility":"true",
+				"title":"სათაური",
+				"defaultValue":""
+			},
+			"pageText":{
+				"visibility":"true",
+				"title":"აღწერა",
+				"defaultValue":""
+			},
+			"classname":{
+				"visibility":"true",
+				"title":"კლასი",
+				"defaultValue":""
+			},
+			"link":{
+				"visibility":"true",
+				"title":"ბმული",
+				"defaultValue":""
+			},
+			"photoUploaderBox":{
+				"visibility":"true",
+				"title":"ფოტოს მიმაგრება",
+				"defaultValue":""
+			},
+			"file_attach":{
+				"visibility":"true",
+				"title":"ფაილის მიმაგრება",
+				"defaultValue":""
+			}
+		}';
 		foreach ($fetch as $val) {
-			$insert = "INSERT INTO `usefull_modules` SET `idx`=:idx, `type`=:type, `title`=:title, `lang`=:lang";
+			$insert = "INSERT INTO `usefull_modules` SET `idx`=:idx, `type`=:type, `title`=:title, `fields`=:fields, `lang`=:lang";
 			$prepare3 = $this->conn->prepare($insert);
 			$prepare3->execute(array(
 				":idx"=>$maxId,  
 				":type"=>$type, 
 				":title"=>$title, 
+				":fields"=>trim($json, " "), 
 				":lang"=>$val['title']
 			)); 
 		}

@@ -80,7 +80,7 @@ echo $data['headertop'];
                                       );
                                     }
 
-                                    if(preg_match_all("/\[(facebook)=(https:\/\/\w+\.\w+)\]/", $data['staff_inside']['url'], $facebook)){
+                                    if(preg_match_all("/\[(facebook)=(https:\/\/.*)\]/", $data['staff_inside']['url'], $facebook)){
                                       $icons .= sprintf(
                                         "<a href=\"%s\"><i class=\"fa fa-facebook\"></i></a>",
                                         $facebook[2][0]

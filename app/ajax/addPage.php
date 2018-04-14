@@ -38,7 +38,7 @@ class addPage
 		$serialPhotos = unserialize(functions\request::index("POST","serialPhotos"));
 		$serialFiles = unserialize(functions\request::index("POST","serialFiles"));
 
-		if($chooseNavType=="" || $choosePageType=="" || $title=="" || $slug=="" || $pageDescription=="" || $pageText=="")
+		if($chooseNavType=="" || $choosePageType=="" || $title=="" || $slug=="")
 		{
 			$this->out = array(
 				"Error" => array(

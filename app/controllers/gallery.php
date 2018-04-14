@@ -29,7 +29,9 @@ class Gallery extends Controller
 
 		$db_usefulllinks = new Database("modules", array(
 			"method"=>"selectModuleByType", 
-			"type"=>"usefulllinks"
+			"type"=>"usefulllinks",
+			"order"=>"`date`",
+			"by"=>"DESC"
 		));
 
 		$s = (isset($_SESSION["URL"][1])) ? $_SESSION["URL"][1] : Config::MAIN_CLASS;
@@ -42,7 +44,9 @@ class Gallery extends Controller
 
 		$db_socialnetworks = new Database("modules", array(
 			"method"=>"selectModuleByType", 
-			"type"=>"socialnetworks"
+			"type"=>"socialnetworks",
+			"order"=>"`date`",
+			"by"=>"DESC"
 		));
 		
 		$db_footerHelpNav = new Database("page", array(
@@ -61,13 +65,17 @@ class Gallery extends Controller
 		$db_staff = new Database("modules", array(
 			"method"=>"selectModuleByType", 
 			"type"=>"staff",
+			"order"=>"`date`",
+			"by"=>"DESC",
 			"from"=>0,
 			"num"=>Config::HOME_PAGE_STAFF_NUM
 		));
 
 		$db_gallery = new Database("modules", array(
 			"method"=>"selectModuleByType", 
-			"type"=>"gallery"
+			"type"=>"gallery",
+			"order"=>"`date`",
+			"by"=>"DESC"
 		));
 
 		/* gallery module */

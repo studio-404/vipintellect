@@ -19,7 +19,7 @@ echo $data['headertop'];
                 <!--MAIN Content-->
                 <div class="col-md-8" style="min-height: 754px;">
                     <div id="page-main">
-                        <section id="about">
+                        <section id="about" class="glakho">
                             <header><h1 class="ninoMtavruli"><?=$data['pageData']['title']?></h1></header>
                             <?php
                             $photos = new Database("photos",array(
@@ -43,14 +43,14 @@ echo $data['headertop'];
 									"100%"
 								);
 							}                            
-
+                            
                             echo preg_replace_callback(
                                 "/\[https\:\/\/\w+\.youtube\.com\/watch\?v=(\w+|\w+-\w+)\]/",
                                 function($metches){
                                     $iframe = "<iframe width=\"100%\" height=\"415\" src=\"https://www.youtube.com/embed/".$metches[1]."\" frameborder=\"0\" allow=\"autoplay; encrypted-media\" allowfullscreen></iframe>";
                                     return $iframe;
                                 },
-                                strip_tags($data['pageData']['text'], "<p><a><ul><li><br><table><tr><td><strong>")
+                                strip_tags($data['pageData']['text'], "<div><h3><img><p><a><ul><li><br><table><tr><td><strong>")
                             );
                             
                             if(count($data["sub_navigation"])):

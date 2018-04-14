@@ -101,7 +101,7 @@ class _news
 				$out .= "<div class=\"description\" style=\"word-wrap: break-word;\">";
 				$out .= sprintf(
 					"<p>%s</p>",
-					$sting->cut($value['description'], 160)
+					$sting->cut(strip_tags($value['description']), 160)
 				);
 				$out .= "</div>";
 				$out .= sprintf(

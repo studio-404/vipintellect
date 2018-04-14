@@ -29,7 +29,9 @@ class Vacancies extends Controller
 
 		$db_usefulllinks = new Database("modules", array(
 			"method"=>"selectModuleByType", 
-			"type"=>"usefulllinks"
+			"type"=>"usefulllinks",
+			"order"=>"`date`",
+			"by"=>"DESC"
 		));
 
 		$s = (isset($_SESSION["URL"][1])) ? $_SESSION["URL"][1] : Config::MAIN_CLASS;
@@ -42,7 +44,9 @@ class Vacancies extends Controller
 
 		$db_socialnetworks = new Database("modules", array(
 			"method"=>"selectModuleByType", 
-			"type"=>"socialnetworks"
+			"type"=>"socialnetworks",
+			"order"=>"`date`",
+			"by"=>"DESC"
 		));
 		
 		$db_footerHelpNav = new Database("page", array(
@@ -83,7 +87,7 @@ class Vacancies extends Controller
 		$news = $this->model('_homenews');
 		$news->data = $db_news->getter();
 
-		if(!isset($vacanciesId) || !is_numeric($vacanciesId)){
+		if(!isset($vacanciesId) || !is_numeric($vacanciesId)){ 
 			$header->pagedata = $db_pagedata; 
 			
 			$fromvacancies = (isset($_GET['pn']) && is_numeric($_GET['pn']) && $_GET['pn']>0) ? ($_GET['pn']-1) : 0;
@@ -92,6 +96,8 @@ class Vacancies extends Controller
 				"method"=>"selectModuleByType", 
 				"type"=>"vacancies",
 				"from"=>$fromvacancies,
+				"order"=>"`date`",
+				"by"=>"DESC",
 				"num"=>Config::VACANCIES_PER_PAGE
 			));
 

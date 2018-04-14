@@ -44,9 +44,16 @@ class editParentModuleForm
 		if($output){
 			foreach ($output as $v) {
 				$options[$v['idx']] = $v['title'];
+				$form .= "<input type=\"hidden\" name=\"fields{$v['idx']}\" id=\"fields{$v['idx']}\" value=\"".htmlentities($v['fields'])."\" />";
 			}
 		}
-		// $form .= print_r($options, true);
+		
+		$form .= functions\makeForm::label(array(
+			"id"=>"chooseParentModuleLabel", 
+			"for"=>"chooseParentModule", 
+			"name"=>"მოდული",
+			"require"=>""
+		));
 		$form .= functions\makeForm::select(array(
 			"id"=>"chooseParentModule",
 			"choose"=>"აირჩიეთ მოდული",
@@ -55,13 +62,28 @@ class editParentModuleForm
 			"disabled"=>"false"
 		));
 
-	
+
+		$form .= functions\makeForm::label(array(
+			"id"=>"titleLabel", 
+			"for"=>"title", 
+			"name"=>"დასახელება",
+			"require"=>""
+		));	
 		$form .= functions\makeForm::inputText(array(
 			"placeholder"=>"დასახელება", 
 			"id"=>"title", 
 			"name"=>"title",
 			"value"=>""
 		));
+
+
+		$form .= functions\makeForm::label(array(
+			"id"=>"fieldsLabel", 
+			"for"=>"fields", 
+			"name"=>"ველები",
+			"require"=>""
+		));
+		$form .= "<textarea name=\"field\" id=\"field\" style=\"border: solid 1px #9e9e9e; min-height: 250px; width:100%;\"></textarea>";
 
 
 		$form .= functions\makeForm::close();
